@@ -1,10 +1,23 @@
 #include <iostream>
-#include <conio.h>  // for getch()
-#include <stdlib.h> // for string -> double conversion
-#include <cstdlib>
-#include <stdio.h>
+
+// For getch()
+#include <conio.h>
+
+// For string -> double conversion
+#include <stdlib.h>
 #include <string.h>
 
+// For splitting strings
+#include <vector>
+#include <iterator>
+#include <sstream>
+
+
+struct threeStrings {
+    std::string one;
+    std::string two;
+    std::string three;
+};
 
 struct mathOp {
     double  num1;
@@ -12,7 +25,14 @@ struct mathOp {
     double  num2;
 };
 
+// Version 1
+threeStrings getInputVersion1();
 
+// Version 2
+threeStrings getInputVersion2();
+std::vector<std::string> stringSplitter(std::string inString);
+
+// Used by both versions
 mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper);
 double operatorFunction(double num1, double num2, char oper);
 
@@ -21,15 +41,20 @@ int main()
 {
     // Get maths from user
     std::cout << "Input maths. Include space or enter between the elements!" << std::endl;
-    std::string inNum1, inOper, inNum2;
     std::cout << "number1 operator number2> ";
-    std::cin >> inNum1 >> inOper >> inNum2;
+
+    // Get the user input.
+    // Change between 1 and 2 to use the different versions.
+    threeStrings input = getInputVersion2();
+
 
     // Print solution
-    std::cout << inNum1 << " " << inOper << " " << inNum2 << std::endl;
+    std::cout << input.one << " " << input.two << " " << input.three << std::endl;
 
-    mathOp cookie = stringHandler(inNum1, inNum2, inOper);
-    std::cout << "Input:\t" << cookie.num1 << " " << cookie.oper << " " << cookie.num2 << std::endl;
+    mathOp cookie = stringHandler(input.one, input.three, input.two);
+    std::cout << "Input:\t" << cookie.num1 << " "
+                            << cookie.oper << " "
+                            << cookie.num2 << std::endl;
     std::cout << "Result:\t" << operatorFunction(cookie.num1, cookie.num2, cookie.oper) << std::endl;
 
     // Holding window open
@@ -37,6 +62,44 @@ int main()
     getch();
 
     return 0;
+}
+
+// Version one takes the data directly into 3 strings from cin.
+threeStrings getInputVersion1()
+{
+    std::string inNum1, inOper, inNum2;
+    std::cin >> inNum1 >> inOper >> inNum2;
+    threeStrings input;
+    input.one   = inNum1;
+    input.two   = inOper;
+    input.three = inNum2;
+    return input;
+}
+
+// Version two takes the data into a single string,
+// and then uses stringSplitter() to make it into the three strings.
+threeStrings getInputVersion2()
+{
+    std::string inString;
+    getline(std::cin, inString);
+    std::vector<std::string> results;
+
+    std::vector<std::string> stringVector = stringSplitter(inString);
+
+    threeStrings input;
+    input.one   = stringVector[0];  // num1
+    input.two   = stringVector[1];  // oper
+    input.three = stringVector[2];  // num2
+    return input;
+}
+
+std::vector<std::string> stringSplitter(std::string inString)
+{
+    // Based on https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+    std::istringstream iss(inString);
+    std::vector<std::string> results((std::istream_iterator<std::string>(iss)),
+                                      std::istream_iterator<std::string>());
+    return results;
 }
 
 mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper)
