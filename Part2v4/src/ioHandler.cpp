@@ -1,17 +1,6 @@
 #include "ioHandler.h"
 
 
-ioHandler::ioHandler()
-{
-    //ctor
-}
-
-ioHandler::~ioHandler()
-{
-    //dtor
-}
-
-
 // Takes the data into a single string,
 // and then uses stringSplitter() to make it into the three strings.
 mathOpStr getUserInput()

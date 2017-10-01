@@ -1,17 +1,6 @@
 #include "mathCalculation.h"
 
 
-mathCalculation::mathCalculation()
-{
-    //ctor
-}
-
-mathCalculation::~mathCalculation()
-{
-    //dtor
-}
-
-
 // Run two numbered calculations with basic operations.
 double operatorFunction(double num1, double num2, char oper)
 {

@@ -1,16 +1,6 @@
 #include "stringHandler.h"
 
 
-stringHandler::stringHandler()
-{
-    //ctor
-}
-
-stringHandler::~stringHandler()
-{
-    //dtor
-}
-
 // Remove spaces from the string.
 std::string removeStringSpaces(std::string str)
 {

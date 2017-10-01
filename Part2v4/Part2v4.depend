@@ -12,18 +12,18 @@
 1506896696 source:d:\projects\c++\calculator\part2v4\src\getinput.cpp
 	"getInput.h"
 
-1506901069 d:\projects\c++\calculator\part2v4\include\iohandler.h
+1506901572 d:\projects\c++\calculator\part2v4\include\iohandler.h
 	"globalDef.h"
 	"stringHandler.h"
 	<vector>
 
-1506900909 source:d:\projects\c++\calculator\part2v4\src\iohandler.cpp
+1506901568 source:d:\projects\c++\calculator\part2v4\src\iohandler.cpp
 	"ioHandler.h"
 
 1506901334 d:\projects\c++\calculator\part2v4\include\globaldef.h
 	<string>
 
-1506901326 d:\projects\c++\calculator\part2v4\include\stringhandler.h
+1506901586 d:\projects\c++\calculator\part2v4\include\stringhandler.h
 	"globalDef.h"
 	<iostream>
 	<string.h>
@@ -32,13 +32,13 @@
 	<sstream>
 	<algorithm>
 
-1506901275 d:\projects\c++\calculator\part2v4\include\mathcalculation.h
+1506901741 d:\projects\c++\calculator\part2v4\include\mathcalculation.h
 	"globalDef.h"
 	<iostream>
 
-1506901272 source:d:\projects\c++\calculator\part2v4\src\mathcalculation.cpp
+1506901602 source:d:\projects\c++\calculator\part2v4\src\mathcalculation.cpp
 	"mathCalculation.h"
 
-1506901286 source:d:\projects\c++\calculator\part2v4\src\stringhandler.cpp
+1506901594 source:d:\projects\c++\calculator\part2v4\src\stringhandler.cpp
 	"stringHandler.h"
 

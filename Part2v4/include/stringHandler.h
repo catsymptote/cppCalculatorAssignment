@@ -20,15 +20,4 @@ std::vector<std::string> stringSplitter(std::string inString);
 mathOp stringConverter(std::string inNum1, std::string inNum2, std::string inOper);
 
 
-class stringHandler
-{
-    public:
-        stringHandler();
-        virtual ~stringHandler();
-
-    protected:
-
-    private:
-};
-
 #endif // STRINGHANDLER_H

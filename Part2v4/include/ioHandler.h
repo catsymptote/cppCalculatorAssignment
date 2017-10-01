@@ -14,17 +14,4 @@ void vectorPrinter(std::vector<int> vect);
 void vectorStrPrinter(std::vector<std::string> vect);
 
 
-class ioHandler
-{
-    public:
-        ioHandler();
-        virtual ~ioHandler();
-
-
-
-    protected:
-
-    private:
-};
-
 #endif // IOHANDLER_H
