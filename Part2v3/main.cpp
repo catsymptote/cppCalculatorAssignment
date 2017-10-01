@@ -4,7 +4,6 @@
 #include <conio.h>
 
 // For string -> double conversion
-#include <stdlib.h>
 #include <string.h>
 
 // For splitting strings
@@ -14,36 +13,30 @@
 #include <algorithm>
 
 
-struct threeStrings {
+// Just three strings. Because reasons.
+struct mathOpStr {
     std::string one;
     std::string two;
     std::string three;
 };
 
+// Object of the two numbers and their operator.
 struct mathOp {
     double  num1;
     char    oper;
     double  num2;
 };
 
-/*
-enum operators {
-    char add = '+';
-    char sub = '-';
-    char mul = '*';
-    char div = '/';
-};
-*/
-
+// Supported operators.
 const static char operators[] = {
     '+', '-', '*', '/'
 };
 
-//void vectorPrinter(std::vector<int, std::string> vect);
+// Extra print functions (mostly for debugging).
 void vectorPrinter(std::vector<int> vect);
 void vectorStrPrinter(std::vector<std::string> vect);
 
-threeStrings getInput();
+mathOpStr getInput();
 std::string removeStringSpaces(std::string str);
 std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes);
 std::vector<int> operatorIndexer(std::string inString);
@@ -52,6 +45,7 @@ mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper)
 double operatorFunction(double num1, double num2, char oper);
 
 
+// This is the main function. It is main af.
 int main()
 {
     // Get maths from user
@@ -59,17 +53,20 @@ int main()
     std::cout << "number1 operator number2> ";
 
     // Get the user input.
-    // Change between 1 and 2 to use the different versions.
-    threeStrings input = getInput();
+    mathOpStr input = getInput();
 
     // Print solution
-    std::cout << input.one << " " << input.two << " " << input.three << std::endl;
+    //std::cout << input.one << " " << input.two << " " << input.three << std::endl;
 
     mathOp cookie = stringHandler(input.one, input.three, input.two);
-    std::cout << "Input:\t" << cookie.num1 << " "
-                            << cookie.oper << " "
-                            << cookie.num2 << std::endl;
-    std::cout << "Result:\t" << operatorFunction(cookie.num1, cookie.num2, cookie.oper) << std::endl;
+
+    // Print input and result
+    std::cout   << "\n---------------\n"
+                << cookie.num1 << " "
+                << cookie.oper << " "
+                << cookie.num2 << " = "
+                << operatorFunction(cookie.num1, cookie.num2, cookie.oper)
+                << "\n---------------\n";
 
     // Holding window open
     std::cout << "Press any key to close ";
@@ -80,62 +77,35 @@ int main()
 
 // Takes the data into a single string,
 // and then uses stringSplitter() to make it into the three strings.
-threeStrings getInput()
+mathOpStr getInput()
 {
     std::string inString;
     getline(std::cin, inString);
 
-    // Assuming user has included spaces.
-    //std::vector<std::string> results;
-    ///std::vector<std::string> stringVector = stringSplitter(inString);
-
-    //std::cout << stringVector.size() << std::endl;
-    ///std::cout << "Test" << std::endl;
-
-    // If wrong format (probably that the user has not included spaces).
-
-    //if(stringVector.size() != 3)
-
-    /*
-    std::string delimiter1 = "+";
-    std::string delimiter2 = "-";
-    std::string delimiter3 = "*";
-    std::string delimiter4 = "/";
-    */
     inString = removeStringSpaces(inString);
-    std::cout << "inString:\t" << inString << std::endl;
 
     std::vector<int> operIndexes = operatorIndexer(inString);
     std::vector<std::string> stringVector = splitStringByIndexVector(inString, operIndexes);
     vectorStrPrinter(stringVector);
-    /*
-    std::string num1;
-    std::string oper;
-    std::string num2;
 
-    std::cout << "num1\t" << num1 << std::endl;
-    std::cout << "oper\t" << oper << std::endl;
-    std::cout << "num2\t" << num2 << std::endl;
-    */
-
-    threeStrings input;
+    mathOpStr input;
     input.one   = stringVector[0];  // num1
     input.two   = stringVector[1];  // oper
     input.three = stringVector[2];  // num2
     return input;
 }
 
-std::string removeStringSpaces(std::string input)
+// Remove spaces from the string.
+std::string removeStringSpaces(std::string str)
 {
-    //remove_if(str.begin(), str.end(), isspace);   // fak dis thing
-    input.erase(std::remove(input.begin(),input.end(),' '),input.end());
-    return input;
+    // Based on: https://stackoverflow.com/questions/16329358/remove-spaces-from-a-string-in-c
+    str.erase(std::remove(str.begin(),str.end(),' '),str.end());
+    return str;
 }
 
+// Splits input string into string-vector
 std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
 {
-    std::cout << "Test: splitStringByIndexVector (beginning)" << std::endl;
-
     std::vector<std::string> elements;
 
     int opIndex = 0;
@@ -160,24 +130,10 @@ std::vector<std::string> splitStringByIndexVector(std::string inString, std::vec
         opIndex++;
     }
 
-    /*
-    for (int index = 0; index < operIndexes.size(); index++)
-    {
-        // Number
-        elements.push_back(inString.substr(0, operIndexes[index]));
-
-        // Operator (if not at last element)
-        if (index < operIndexes.size() -1)
-        {
-            elements.push_back(inString.substr(operIndexes[index], 1));
-        }
-    }
-    */
-
-    std::cout << "Test: return elements from splitStringByIndexVector" << std::endl;
     return elements;
 }
 
+// Find the indexes of the input string.
 std::vector<int> operatorIndexer(std::string inString)
 {
     std::vector<int> operIndexes;
@@ -191,16 +147,11 @@ std::vector<int> operatorIndexer(std::string inString)
                 operIndexes.push_back(strIndex);
             }
         }
-
-        //std::string num1 = inString.substr(0, inString.find(operators[i]));
-        //std::string oper = inString.substr(inString.find(operators[i]), 1);
-        //std::string num2 = inString.substr(inString.find(operators[i]) +1, inString.size() - inString.find(operators[i]) +1);
     }
-    vectorPrinter(operIndexes);
-    std::cout << "Test: operatorIndexes (end)" << std::endl;
     return operIndexes;
 }
 
+// Split strings by spaces, from the interwebs, not currently used.
 std::vector<std::string> stringSplitter(std::string inString)
 {
     // Based on https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
@@ -210,9 +161,9 @@ std::vector<std::string> stringSplitter(std::string inString)
     return results;
 }
 
+// Make strings into numbers and operator chars.
 mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper)
 {
-    // Convert std::string -> char[]
     char chNum1[1024];
     char chNum2[1024];
     strcpy(chNum1, inNum1.c_str());
@@ -227,6 +178,7 @@ mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper)
     return thingy;
 }
 
+// Run two numbered calculations with basic operations.
 double operatorFunction(double num1, double num2, char oper)
 {
     switch (oper)
@@ -246,23 +198,24 @@ double operatorFunction(double num1, double num2, char oper)
     }
 }
 
-
-//template<typename T, typename A>
+// Print out the vectors. What is templates even :P
 void vectorPrinter(std::vector<int> vect)
 {
-    std::cout << "Vector:\t";
+    return;
+    std::cout << "Input:\t";
     for(int i = 0; i < vect.size(); i++)
     {
-        std::cout << vect[i] << "\t";
+        std::cout << vect[i] << " ";
     }
     std::cout << std::endl;
 }
 void vectorStrPrinter(std::vector<std::string> vect)
 {
-    std::cout << "Vector:\t";
+    return;
+    std::cout << "Input:\t";
     for(int i = 0; i < vect.size(); i++)
     {
-        std::cout << "<" << vect[i] << ">\t";
+        std::cout << vect[i] << " ";
     }
     std::cout << std::endl;
 }

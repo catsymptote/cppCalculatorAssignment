@@ -38,7 +38,6 @@ int main()
     std::cout << "number1 operator number2> ";
 
     // Get the user input.
-    // Change between 1 and 2 to use the different versions.
     threeStrings input = getInput();
 
     // Print solution
