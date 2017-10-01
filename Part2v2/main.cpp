@@ -25,14 +25,9 @@ struct mathOp {
     double  num2;
 };
 
-// Version 1
-threeStrings getInputVersion1();
 
-// Version 2
-threeStrings getInputVersion2();
+threeStrings getInput();
 std::vector<std::string> stringSplitter(std::string inString);
-
-// Used by both versions
 mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper);
 double operatorFunction(double num1, double num2, char oper);
 
@@ -45,7 +40,7 @@ int main()
 
     // Get the user input.
     // Change between 1 and 2 to use the different versions.
-    threeStrings input = getInputVersion2();
+    threeStrings input = getInput();
 
     // Print solution
     std::cout << input.one << " " << input.two << " " << input.three << std::endl;
@@ -63,21 +58,9 @@ int main()
     return 0;
 }
 
-// Version one takes the data directly into 3 strings from cin.
-threeStrings getInputVersion1()
-{
-    std::string inNum1, inOper, inNum2;
-    std::cin >> inNum1 >> inOper >> inNum2;
-    threeStrings input;
-    input.one   = inNum1;
-    input.two   = inOper;
-    input.three = inNum2;
-    return input;
-}
-
-// Version two takes the data into a single string,
+// Takes the data into a single string,
 // and then uses stringSplitter() to make it into the three strings.
-threeStrings getInputVersion2()
+threeStrings getInput()
 {
     std::string inString;
     getline(std::cin, inString);
