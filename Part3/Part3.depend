@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1506915710 source:d:\projects\c++\calculator\part3\main.cpp
+	"ioHandler.h"
+	"stringHandler.h"
+	"mathCalculation.h"
+	"globalDef.h"
+	<iostream>
+	<vector>
+	<string.h>
+	<conio.h>
+
+1506908470 d:\projects\c++\calculator\part3\include\iohandler.h
+	"globalDef.h"
+	"stringHandler.h"
+	<vector>
+
+1506919277 d:\projects\c++\calculator\part3\include\globaldef.h
+	<string>
+
+1506910120 d:\projects\c++\calculator\part3\include\stringhandler.h
+	"globalDef.h"
+	<iostream>
+	<string.h>
+	<vector>
+	<iterator>
+	<sstream>
+	<algorithm>
+
+1506915734 d:\projects\c++\calculator\part3\include\mathcalculation.h
+	"globalDef.h"
+	"stringHandler.h"
+	<iostream>
+	<vector>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<string>
+
+1506910407 source:d:\projects\c++\calculator\part3\src\iohandler.cpp
+	"ioHandler.h"
+
+1506919132 source:d:\projects\c++\calculator\part3\src\mathcalculation.cpp
+	"mathCalculation.h"
+	<iostream>
+	"ioHandler.h"
+
+1506910285 source:d:\projects\c++\calculator\part3\src\stringhandler.cpp
+	"stringHandler.h"
+
