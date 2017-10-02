@@ -1,5 +1,6 @@
 #include "stringHandler.h"
 
+
 // Remove spaces from the string.
 std::string removeStringSpaces(std::string str)
 {
@@ -7,6 +8,7 @@ std::string removeStringSpaces(std::string str)
     str.erase(std::remove(str.begin(),str.end(),' '),str.end());
     return str;
 }
+
 
 // Splits input string into string-vector
 std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
@@ -38,6 +40,7 @@ std::vector<std::string> splitStringByIndexVector(std::string inString, std::vec
     return elements;
 }
 
+
 // Find the indexes of the input string.
 std::vector<int> operatorIndexer(std::string inString)
 {
@@ -56,6 +59,7 @@ std::vector<int> operatorIndexer(std::string inString)
     return operIndexes;
 }
 
+
 // Split strings by spaces, from the interwebs, not currently used.
 std::vector<std::string> stringSplitter(std::string inString)
 {
@@ -66,26 +70,22 @@ std::vector<std::string> stringSplitter(std::string inString)
     return results;
 }
 
+
 // Make strings into numbers and operator chars.
 mathOp stringConverter(std::string inNum1, std::string inOper, std::string inNum2)
 {
-    /*
-    char chNum1[1024];
-    char chNum2[1024];
-    strcpy(chNum1, inNum1.c_str());
-    strcpy(chNum2, inNum2.c_str());
-    */
-
     // Make struct
     mathOp thingy;
     thingy.num1 = stringToDouble(inNum1);
     thingy.num2 = stringToDouble(inNum2);
     thingy.oper = inOper[0];
 
-    std::cout << "num1 " << thingy.num1 << "\nnum2 " << thingy.num2 << std::endl;
+    //std::cout << "num1 " << thingy.num1 << "\nnum2 " << thingy.num2 << std::endl;
     return thingy;
 }
 
+
+// Converts std::String to double.
 double stringToDouble(std::string str)
 {
     char chr[1024];

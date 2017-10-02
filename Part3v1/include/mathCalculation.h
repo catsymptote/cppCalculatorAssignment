@@ -15,8 +15,7 @@
 
 
 double basicOperatorFunction(double num1, char oper, double num2);
-std::string ltrCalculationHandler(std::vector<std::string> elements);
-double calculationHandler(std::vector<std::string> elements);
+double ltrCalculationHandler(std::vector<std::string> elements);
 
 
 #endif // MATHCALCULATION_H_INCLUDED

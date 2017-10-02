@@ -9,7 +9,6 @@
 #include <vector>
 
 
-mathOpStr getUserInput();
 std::string getStringInput();
 
 void vectorPrinter(std::vector<int> vect);
