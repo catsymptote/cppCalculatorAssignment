@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1506982102 source:d:\projects\c++\calculator\part4\main.cpp
+	<iostream>
+	<vector>
+	"calculator.h"
+
+1507164101 source:d:\projects\c++\calculator\part4\src\calculator.cpp
+	"calculator.h"
+
+1507161307 d:\projects\c++\calculator\part4\include\calculator.h
+	<iostream>
+	<vector>
+	<string>
+	<string.h>
+	<stdlib.h>
+	<math.h>
+	<iterator>
+	<sstream>
+	<algorithm>
+	<tuple>
+	<conio.h>
+
