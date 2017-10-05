@@ -115,16 +115,19 @@ std::vector<std::string> stringToVector(std::string str)
                 elements.push_back(str.substr(flag +1, strIndex-flag -1));  // Add number
                 elements.push_back(str.substr(strIndex, 1));                // Add operator
 
-                /// If next char is also an operator.
+                /// While next char is also an operator (when multiple operators in a row).
+                while(charIsOper(str[strIndex +1]))
+                {
+                    elements.push_back(str.substr(strIndex +1, 1));    // Add operator
+                    strIndex++;
+                }
+                /*
                 if(charIsOper(str[strIndex +1]))
                 {
                     elements.push_back(str.substr(strIndex +1, 1));    // Add operator
                     strIndex++;
                 }
-                else
-                {
-
-                }
+                */
                 //std::cout << "#Test IF: " << str[strIndex] << std::endl;
 
                 //std::cout << elements[elements.size() -1] << std::endl;
