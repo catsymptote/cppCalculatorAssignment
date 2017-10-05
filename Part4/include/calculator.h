@@ -40,6 +40,16 @@ const static char operators[] = {
 };
 
 
+/// Char array of all legal input characters
+const static char legalChars[] = {
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',   // Numbers
+    '(', ')', '[', ']', '{', '}',                       // Brackets
+    '^', '%', '/', '*', '-', '+'                        // Operators
+};
+
+
+
+
 
 /// Interface
 void calcInputPrint();
@@ -54,6 +64,9 @@ std::string getStringInput();
 void vectorPrinter(std::vector<int> vect);
 void vectorStrPrinter(std::vector<std::string> vect);
 void debugVectorStrPrinter(std::vector<std::string> vect);
+
+/// Legality checker
+bool charLegality(std::string str);
 
 
 /// String handling

@@ -41,9 +41,20 @@ double calcStr(std::string strInput)
     /// Remove spaces.
     strInput = removeStringSpaces(strInput);
 
+
+    /// If illegal
+    if(charLegality(strInput))
+    {
+        std::cout << "\n\n\n\n----Invalid Input----\n\n\n" << std::endl;
+        return -1;
+    }
+    // charLegality(strInput)       // check for illegal characters
+    // testyFunction(strInput)      // check rules, etc.
+    // stringFormatter(strInput)    // 2( -> 2*(, and so on
+
+
     /// String to vector conversion.
     std::vector<std::string> vectInput = stringToVector(strInput);
-
     return calcVect(vectInput);
 }
 
@@ -52,6 +63,35 @@ double calcVect(std::vector<std::string> vectInput)
 {
     return calculationHandler(vectInput);
 }
+
+
+/// Return true if string includes illegal characters.
+bool charLegality(std::string str)
+{
+    bool illegal = false;
+    for(int strIndex = 0; strIndex < str.length(); strIndex++)
+    {
+        illegal = true;
+        for(int legalCharIndex = 0; legalCharIndex < sizeof(legalChars); legalCharIndex++)
+        {
+            if(str[strIndex] == legalChars[legalCharIndex])
+            {
+                illegal = false;
+            }
+        }
+        if(illegal)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
+
+
 
 
 
