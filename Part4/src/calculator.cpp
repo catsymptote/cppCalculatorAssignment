@@ -7,22 +7,20 @@
 /// Get user input and print result.
 void calcInputPrint()
 {
-    std::cout << "Input:";
-
     /// Get result.
     double result = calcInput();
 
     /// Print result.
-    std::cout   << "\n--------------------------------------------------"
-                << "--------------------------------------------------\n";
-    std::cout   << "Result: " << result
+    std::cout   //<< "\n--------------------------------------------------"
+                //<< "--------------------------------------------------\n"
+                << "= " << result
                 << "\n--------------------------------------------------"
                 << "--------------------------------------------------\n";
 
-    /// Holding window open.
-    std::cout << "Press any key to close ";
-    getch();
-    std::cout << "\n" << std::endl;
+    /// Holding window open. (useful when not running in a loop)
+    //std::cout << "Press any key to close ";
+    //getch();
+    //std::cout << "\n" << std::endl;
 }
 
 /// Get user input and return result.
@@ -48,7 +46,6 @@ double calcStr(std::string strInput)
         std::cout << "\n\n\n\n----Invalid Input----\n\n\n" << std::endl;
         return -1;
     }
-    // charLegality(strInput)       // check for illegal characters
     // testyFunction(strInput)      // check rules, etc.
     // stringFormatter(strInput)    // 2( -> 2*(, and so on
 
@@ -63,7 +60,6 @@ double calcVect(std::vector<std::string> vectInput)
 {
     return calculationHandler(vectInput);
 }
-
 
 /// Return true if string includes illegal characters.
 bool charLegality(std::string str)
@@ -86,11 +82,6 @@ bool charLegality(std::string str)
     }
     return false;
 }
-
-
-
-
-
 
 
 
@@ -273,11 +264,35 @@ double basicOperatorFunction(double num1, char oper, double num2)
         case '*':
             return (num1 * num2);
         case '/':
-            return (num1 / num2);
-        case '^':
-            return (pow(num1, num2));
+            if(num2 != 0)
+            {
+                return (num1 / num2);
+            }
+            else
+            {
+                std::cout << "\nDividing by 0 is naughty ;P" << std::endl;
+                return 0;
+            }
         case '%':
-            return (fmod(num1, num2));
+            if(num2 != 0)
+            {
+                return (fmod(num1, num2));
+            }
+            else
+            {
+                std::cout << "\nDividing by 0 is naughty ;P" << std::endl;
+                return 0;
+            }
+        case '^':
+            if(!(num1 == 0 && num2 == 0))
+            {
+                return (pow(num1, num2));
+            }
+            else
+            {
+                std::cout << "\n0^0 is undefined. Google it." << std::endl;
+                return 0;
+            }
         default:
             std::cout   << "Error. Operator " << oper
                         << " not recognized"  << std::endl;

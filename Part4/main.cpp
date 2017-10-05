@@ -8,9 +8,14 @@
 int main()
 {
     // Test by user input
-    calcInputPrint();
+    std::cout << "Input yer maths, maties!" << std::endl;
+    while (true)
+    {
+        calcInputPrint();
+    }
 
-/*
+/*  Examples:
+
     // Test by passing string
     std::string str = "4 + 5 + 11 * 3 + 4 * 4 + 9 / 3 + 4 * 12 - 3 / 4";
     std::cout << "calcStr():\t" << calcStr(str) << std::endl;
