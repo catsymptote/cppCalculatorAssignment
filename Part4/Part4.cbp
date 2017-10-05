@@ -39,7 +39,7 @@
 		</Compiler>
 		<Unit filename="include/calculator.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="resource.rc">
+		<Unit filename="resources/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="src/calculator.cpp" />
