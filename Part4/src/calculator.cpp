@@ -136,7 +136,7 @@ std::vector<std::string> stringToVector(std::string str)
         }
     }
     /// Add last number to element.
-    elements.push_back(str.substr(flag +1, sizeof(str)));
+    elements.push_back(str.substr(flag +1, str.length()));
     return elements;
 }
 
