@@ -53,8 +53,14 @@ void vectorStrPrinter(std::vector<std::string> vect);
 
 // String handling
 std::string removeStringSpaces(std::string str);
-std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes);
+
 std::vector<int> operatorIndexer(std::string inString);
+std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes);
+// vs
+std::vector<std::string> stringToVector(std::string str);
+
+
+bool charIsOper(char inChar);
 std::vector<std::string> stringSplitter(std::string inString);
 double stringToDouble(std::string str);
 
