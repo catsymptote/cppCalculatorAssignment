@@ -36,9 +36,7 @@
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/calculator.h">
-			<Option link="1" />
-		</Unit>
+		<Unit filename="include/calculator.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/calculator.cpp" />
 		<Extensions>

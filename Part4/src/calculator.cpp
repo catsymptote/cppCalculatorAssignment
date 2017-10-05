@@ -1,48 +1,63 @@
 #include "calculator.h"
 
 
-void calcPrint()
+
+/// /// "Interface" Functions /// ///
+
+/// Get user input and print result.
+void calcInputPrint()
 {
-    // User info.
-    std::cout << "Input maths. Include space or enter between the elements!" << std::endl;
-    std::cout << "number1 operator number2> ";
+    std::cout << "Input:";
 
-    // Convert and calculate.
-    std::string strInput = getStringInput();
-    strInput = removeStringSpaces(strInput);
-    //std::vector<int> operIndexes = operatorIndexer(strInput);
-    //std::vector<std::string> vectInput = splitStringByIndexVector(strInput, operIndexes);
-    std::vector<std::string> altVectInput = stringToVector(strInput);
-    double result = calculationHandler(altVectInput);
+    /// Get result.
+    double result = calcInput();
 
-    // Print input and result.
-    std::cout   << "\n--------------------------------------------------\n";
-    //vectorStrPrinter(vectInput);
-    std::cout   << "= " << result
-                << "\n--------------------------------------------------\n";
+    /// Print result.
+    std::cout   << "\n--------------------------------------------------"
+                << "--------------------------------------------------\n";
+    std::cout   << "Result: " << result
+                << "\n--------------------------------------------------"
+                << "--------------------------------------------------\n";
 
-    // Holding window open.
+    /// Holding window open.
     std::cout << "Press any key to close ";
     getch();
     std::cout << "\n" << std::endl;
 }
 
-
-double calcStr(std::string strInput)
+/// Get user input and return result.
+double calcInput()
 {
-    strInput = removeStringSpaces(strInput);
-    std::vector<int> operIndexes = operatorIndexer(strInput);
-    std::vector<std::string> vectInput = splitStringByIndexVector(strInput, operIndexes);
-    return calculationHandler(vectInput);
+    /// User input
+    std::cout << "> ";
+    std::string strInput = getStringInput();
+
+    return calcStr(strInput);
 }
 
+/// Get string and return result.
+double calcStr(std::string strInput)
+{
+    /// Remove spaces.
+    strInput = removeStringSpaces(strInput);
 
+    /// String to vector conversion.
+    std::vector<std::string> vectInput = stringToVector(strInput);
+
+    return calcVect(vectInput);
+}
+
+/// Get vector and return result.
 double calcVect(std::vector<std::string> vectInput)
 {
     return calculationHandler(vectInput);
 }
 
 
+
+/// /// IO Functions /// ///
+
+/// Get input string.
 std::string getStringInput()
 {
     std::string inString;
@@ -50,11 +65,10 @@ std::string getStringInput()
     return inString;
 }
 
-
-// Print out the vectors. What is templates even :P
+/// Print out int vector.
 void vectorIntPrinter(std::vector<int> vect)
 {
-    std::cout << "vector<int>:\t";
+    std::cout << "Input:\t";
     for(int i = 0; i < vect.size(); i++)
     {
         std::cout << vect[i] << " ";
@@ -62,9 +76,21 @@ void vectorIntPrinter(std::vector<int> vect)
     std::cout << std::endl;
 }
 
+/// Print out string vector.
 void vectorStrPrinter(std::vector<std::string> vect)
 {
-    std::cout << "vector<string>:\t";
+    std::cout << "vector:\t";
+    for(int i = 0; i < vect.size(); i++)
+    {
+        std::cout << vect[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+/// Debugging printer for string vector.
+void debugVectorStrPrinter(std::vector<std::string> vect)
+{
+    std::cout << "debug: vector<string>:\t";
     for(int i = 0; i < vect.size(); i++)
     {
         std::cout << "<" << vect[i] << "> ";
@@ -74,9 +100,9 @@ void vectorStrPrinter(std::vector<std::string> vect)
 
 
 
+/// /// String -> Vector Conversion Functions /// ///
 
-
-// Remove spaces from the string.
+/// Remove spaces from the string.
 std::string removeStringSpaces(std::string str)
 {
     // Based on: https://stackoverflow.com/questions/16329358/remove-spaces-from-a-string-in-c
@@ -85,74 +111,37 @@ std::string removeStringSpaces(std::string str)
 }
 
 
-/// Alternative to splitStringByIndexVector() and operatorIndexer().
+/// Alternative (new) to splitStringByIndexVector() and operatorIndexer().
 std::vector<std::string> stringToVector(std::string str)
 {
-    //std::cout << "#Test str: " << str << std::endl;
-    //std::cout << "#Test str size: " << str.size() << std::endl;
-
-    /// 2/3
-    ///  2   /   3
-    /// <n> <o> <n>
-
-    /// 2*(4-5)+1
-    ///  2   *   (   4   -   5   )   +   1
-    /// <n> <o> <o> <n> <o> <n> <o> <o> <n>
-
     std::vector<std::string> elements;
 
     int flag = -1;
     /// Loop through chars in string.
-
     for(int strIndex = 0; strIndex < str.size() +1; strIndex++)
     {
-        /// Loop through operator characters.
-        //for(int opIndex = 0; opIndex < sizeof(operators); opIndex++)
+        /// If char in string is an operator character.
+        if(charIsOper(str[strIndex]))
         {
-            /// If char in string is an operator character.
-            if(charIsOper(str[strIndex]))
-            {
-                elements.push_back(str.substr(flag +1, strIndex-flag -1));  // Add number
-                elements.push_back(str.substr(strIndex, 1));                // Add operator
+            elements.push_back(str.substr(flag +1, strIndex-flag -1));  /// Add number
+            elements.push_back(str.substr(strIndex, 1));                /// Add operator
 
-                /// While next char is also an operator (when multiple operators in a row).
-                while(charIsOper(str[strIndex +1]))
-                {
-                    elements.push_back(str.substr(strIndex +1, 1));    // Add operator
-                    strIndex++;
-                }
-                /*
-                if(charIsOper(str[strIndex +1]))
-                {
-                    elements.push_back(str.substr(strIndex +1, 1));    // Add operator
-                    strIndex++;
-                }
-                */
-                //std::cout << "#Test IF: " << str[strIndex] << std::endl;
-
-                //std::cout << elements[elements.size() -1] << std::endl;
-                //strIndex++;
-                flag = strIndex;
-            }
-            /// Else char is not an operator
-            else
+            /// While next char is also an operator (when multiple operators in a row).
+            while(charIsOper(str[strIndex +1]))
             {
-                // Do nothing?
-                //std::cout << "#Test ELSE: " << str[strIndex] << std::endl;
+                elements.push_back(str.substr(strIndex +1, 1));    /// Add operator
+                strIndex++;
             }
+            flag = strIndex;
         }
     }
     /// Add last number to element.
     elements.push_back(str.substr(flag +1, sizeof(str)));
-    std::cout << "#Test function complete" << std::endl;
-    vectorStrPrinter(elements);
     return elements;
 }
 
 
-
-
-// Splits input string into string-vector
+/// Splits input string into string-vector (old)
 std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
 {
     std::vector<std::string> elements;
@@ -164,80 +153,35 @@ std::vector<std::string> splitStringByIndexVector(std::string inString, std::vec
     while(opIndex < operIndexes.size() +0)
     {
         nextOp = operIndexes[opIndex];
-        //std::cout << "Start nextOp: " << nextOp << std::endl;
-        /// Error with the string splitter (<num> <op> <num> <op> .. order should not be forces)
-        /// 2*(4-5)+1 = -1
-        ///   2     *    (    4     -    5     )    +    1
-        /// <num> <op> <op> <num> <op> <num> <op> <op> <num>
-
-        //if(inString[strPos])
-        //std::cout << "nextOp: " << nextOp << ", prevOp: " << prevOp << std::endl;
-
-        // If first is a charater (implying there are two chars in a row
-        //if(isChar(inString[nextOp -1]) && isChar(inString[nextOp]))
-        //if(nextOp - prevOp < 2)
         if(charIsOper(inString[nextOp -1]))
         {
-            //std::cout << "#Test a1" << std::endl;
-            // Do stuff
+            /// Operator
             elements.push_back(inString.substr( nextOp, 1 ));
-            //std::cout << "#Test a2" << std::endl;
-            //opIndex++;
-            //vectorStrPrinter(elements);
         }
         else
         {
-            //std::cout << "#Test b1" << std::endl;
-            // Number
-            elements.push_back(inString.substr(strPos, nextOp - prevOp));  // 0, nextOp
-            //std::cout << "#Test b2" << std::endl;
-            // Operator
+            /// Number
+            elements.push_back(inString.substr(strPos, nextOp - prevOp));
+            /// Operator
             if (opIndex < operIndexes.size())
             {
-                //std::cout << "#Test b3" << std::endl;
-                elements.push_back(inString.substr( nextOp, 1 ));  // 4, 1
+                elements.push_back(inString.substr( nextOp, 1 ));
             }
-            //vectorStrPrinter(elements);
         }
 
-        // If last element in the list
+        /// If last element in the list
         if(opIndex > operIndexes.size() -2)
         {
-            //std::cout << "#Test c1" << std::endl;
-            elements.push_back(inString.substr(strPos +1, sizeof(inString) -0));  // 0, nextOp
-            std::cout << "inString substr: " << inString.substr(strPos +1, sizeof(inString) -0) << std::endl;
-            std::cout << "Last element in elements: " << elements[elements.size() -1] << std::endl;
-            //std::cout << "#Test c2" << std::endl;
+            elements.push_back(inString.substr(strPos +1, sizeof(inString) -0));
         }
-
-        //std::cout << "End of loop" << std::endl;
-
         strPos = nextOp +1;
         prevOp = nextOp +1;
         opIndex++;
     }
-    //std::cout << "Loop finished" << std::endl;
-    //vectorStrPrinter(elements);
-
     return elements;
 }
 
-
-// Check if char is an operator
-bool charIsOper(char inChar)
-{
-    for (int opIndex = 0; opIndex < sizeof(operators); opIndex++)
-    {
-        if(inChar == operators[opIndex])
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-
-// Find the indexes of the input string.
+/// Find the indexes of the input string. (old)
 std::vector<int> operatorIndexer(std::string inString)
 {
     std::vector<int> operIndexes;
@@ -252,8 +196,20 @@ std::vector<int> operatorIndexer(std::string inString)
     return operIndexes;
 }
 
+/// Check if char is an operator
+bool charIsOper(char inChar)
+{
+    for (int opIndex = 0; opIndex < sizeof(operatorsAndBrackets); opIndex++)
+    {
+        if(inChar == operatorsAndBrackets[opIndex])
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
-// Convert a type std::string to a type double.
+/// Convert string to double.
 double stringToDouble(std::string str)
 {
     char chr[1024];
@@ -263,13 +219,11 @@ double stringToDouble(std::string str)
 
 
 
+/// /// Maths Functions /// ///
 
-
-
-// Run two numbered calculations with basic operations.
+/// Run two numbered calculations with basic operations.
 double basicOperatorFunction(double num1, char oper, double num2)
 {
-    //std::cout << "basicOpFunc: " << num1 << " " << oper << " " << num2 << std::endl;
     switch (oper)
     {
         case '+':
@@ -292,13 +246,12 @@ double basicOperatorFunction(double num1, char oper, double num2)
     return 0;
 }
 
-
-// Finds if there is an beginning bracket in the string
+/// Finds if there is an beginning bracket in the string
 bool bracketStartStringFinder(std::string str)
 {
     for(int strIndex = 0; strIndex < str.size(); strIndex++)
     {
-        if  (   // If char is a start bracket
+        if  (   /// If char is a start bracket
                str[strIndex] == '('
             || str[strIndex] == '['
             || str[strIndex] == '{'
@@ -307,16 +260,15 @@ bool bracketStartStringFinder(std::string str)
             return true;
         }
     }
-    return false;   // No brackets found in string
+    return false;   /// No brackets found in string
 }
 
-
-// Finds if there is an ending bracket in the string
+/// Finds if there is an ending bracket in the string
 bool bracketStopStringFinder(std::string str)
 {
     for(int strIndex = 0; strIndex < str.size(); strIndex++)
     {
-        if  (   // If char is an end bracket
+        if  (   /// If char is an end bracket
                str[strIndex] == ')'
             || str[strIndex] == ']'
             || str[strIndex] == '}'
@@ -325,11 +277,10 @@ bool bracketStopStringFinder(std::string str)
             return true;
         }
     }
-    return false;   // No brackets found in string
+    return false;   /// No brackets found in string
 }
 
-
-// Returns true if the vector of strings has a bracket in it
+/// Returns true if the vector of strings has a bracket in it
 bool bracketVectFinder(std::vector<std::string> elements)
 {
     for(int vectIndex = 0; vectIndex < elements.size(); vectIndex++)
@@ -339,11 +290,10 @@ bool bracketVectFinder(std::vector<std::string> elements)
             return true;
         }
     }
-    return false;   // No brackets found in vector
+    return false;   /// No brackets found in vector
 }
 
-
-// Find the index of the first outer most brackets
+/// Find the index of the first and its belonging brackets
 std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
 {
     int start = 0;
@@ -351,8 +301,7 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
     int bracCount = 0;
     for(int vectIndex = 0; vectIndex < elements.size(); vectIndex++)
     {
-        //std::cout << vectIndex << std::endl;
-        // If there are brackets in the string
+        /// If there are brackets in the string
         if(bracketStartStringFinder(elements[vectIndex]))
         {
             //std::cout << "#IF" << std::endl;
@@ -362,10 +311,9 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
             }
             bracCount++;
         }
-        // If there are no brackets in the string
+        /// If there are no brackets in the string
         else if(bracketStopStringFinder(elements[vectIndex]))
         {
-            //std::cout << "#ELSE IF" << std::endl;
             if(bracCount == 1)
             {
                 stop = vectIndex;
@@ -373,77 +321,43 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
             bracCount--;
         }
     }
-    //std::cout << "start : stop+1 \t" << start << " : " << stop+1 << std::endl;
-
     std::tuple<int, int> vectPos (start, stop +1);
     return vectPos;
 }
 
-
-// Get subvector
+/// Get subvector
 std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elements, int start, int stop)
 {
-    //vectorStrPrinter(elements);
-    //std::cout << "BracketedSubvectExtractor: start: " << start << ", stop: " << stop << std::endl;
-
     std::vector<std::string> subVect;
     for(int vectIndex = start; vectIndex < stop; vectIndex++)
     {
-        //std::cout << vectIndex << " : " << elements[vectIndex] << std::endl;
         subVect.push_back(elements[vectIndex]);
     }
-    //std::cout << "bracketedSubvectExtractor end: ";
-    //vectorStrPrinter(subVect);
     return subVect;
 }
 
-
-// This functions calculates based on order of operations.
+/// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 double calculationHandler(std::vector<std::string> elements)
 {
-    //std::cout << "#Test 1" << std::endl;
-    //vectorStrPrinter(elements);
-    // If vector has brackets
     if(bracketVectFinder(elements))
     {
-        //std::cout << "Brackets found" << std::endl;
         std::tuple<int, int> bracPos = bracketIndex(elements);
-        //std::vector bracVect = bracketedSubvectExtractor(elements, bracPos[0], bracPos[1]);
-        //std::cout << "bracPos[0]: " << std::get<0>(bracPos) << ", bracPos[1]: " << std::get<1>(bracPos) << std::endl;
         std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
-        //vectorStrPrinter(bracVect);
         elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
-        std::cout << "Recursive return: " << std::to_string(calculationHandler(bracVect)) << std::endl;
-        //std::cout << "return from brackets: " << elements[std::get<0>(bracPos)] << std::endl;
-        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + (std::get<1>(bracPos) - std::get<0>(bracPos) +2));
-        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + (std::get<1>(bracPos) - std::get<0>(bracPos)) +2);
-        //elements.erase(std::remove(elements.begin(), elements.end(), (std::get<1>(bracPos) - std::get<0>(bracPos)), elements.end());
-        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + std::get<1>(bracPos) -1);
-        //elements.erase(elements.begin() + std::get<1>(bracPos) -1);
-        int start   = std::get<0>(bracPos) +1;//elements.begin() +1;
-        int stop    = std::get<1>(bracPos);//stop +
-        std::cout << start << " : " << stop << std::endl;
+        int start   = std::get<0>(bracPos) +1;
+        int stop    = std::get<1>(bracPos);
         elements.erase(elements.begin() + start,     elements.begin() + stop);
-        //vectorStrPrinter(elements);
     }
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
         int elemIndex = 0;
         while(elements.size() >= elemIndex +2)
         {
-            // If acceptable operator
+            /// If acceptable operator
             if(elements[elemIndex +1][0] == operators[opIndex])
             {
-                // If bracket start
-                //if(elements[elemIndex][0] == '(' || elements[elemIndex +1][0] == '(' || elements[elemIndex +2][0] == '(')
-
-                //std::cout << "if char in while: ";
-                vectorStrPrinter(elements);
-                //std::cout << elements[elemIndex +2] << std::endl;
-                //std::cout << "inputs: " << stringToDouble(elements[elemIndex]) << " " << elements[elemIndex +1][0] << " " << stringToDouble(elements[elemIndex +2]) << std::endl;
                 elements[elemIndex] = std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
                 elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
-                std::cout << "result: " << elements[elemIndex] << std::endl;
             }
             else
             {
