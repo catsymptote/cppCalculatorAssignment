@@ -43,7 +43,7 @@ double calcStr(std::string strInput)
     /// If illegal
     if(charLegality(strInput))
     {
-        std::cout << "\n\n\n\n----Invalid Input----\n\n\n" << std::endl;
+        std::cout << "----Invalid Input----" << std::endl;
         return -1;
     }
     // testyFunction(strInput)      // check rules, etc.
