@@ -54,7 +54,7 @@ std::string getStringInput()
 // Print out the vectors. What is templates even :P
 void vectorIntPrinter(std::vector<int> vect)
 {
-    std::cout << "Input:\t";
+    std::cout << "vector<int>:\t";
     for(int i = 0; i < vect.size(); i++)
     {
         std::cout << vect[i] << " ";
@@ -64,7 +64,7 @@ void vectorIntPrinter(std::vector<int> vect)
 
 void vectorStrPrinter(std::vector<std::string> vect)
 {
-    std::cout << "Input:\t";
+    std::cout << "vector<string>:\t";
     for(int i = 0; i < vect.size(); i++)
     {
         std::cout << "<" << vect[i] << "> ";
@@ -269,7 +269,7 @@ double stringToDouble(std::string str)
 // Run two numbered calculations with basic operations.
 double basicOperatorFunction(double num1, char oper, double num2)
 {
-    std::cout << "basicOpFunc: " << num1 << " " << oper << " " << num2 << std::endl;
+    //std::cout << "basicOpFunc: " << num1 << " " << oper << " " << num2 << std::endl;
     switch (oper)
     {
         case '+':
@@ -296,9 +296,9 @@ double basicOperatorFunction(double num1, char oper, double num2)
 // Finds if there is an beginning bracket in the string
 bool bracketStartStringFinder(std::string str)
 {
-    for(int strIndex = 0; strIndex < sizeof(str); strIndex++)
+    for(int strIndex = 0; strIndex < str.size(); strIndex++)
     {
-        if  (   // If char is a bracket
+        if  (   // If char is a start bracket
                str[strIndex] == '('
             || str[strIndex] == '['
             || str[strIndex] == '{'
@@ -314,9 +314,9 @@ bool bracketStartStringFinder(std::string str)
 // Finds if there is an ending bracket in the string
 bool bracketStopStringFinder(std::string str)
 {
-    for(int strIndex = 0; strIndex < sizeof(str); strIndex++)
+    for(int strIndex = 0; strIndex < str.size(); strIndex++)
     {
-        if  (   // If char is a bracket
+        if  (   // If char is an end bracket
                str[strIndex] == ')'
             || str[strIndex] == ']'
             || str[strIndex] == '}'
@@ -351,9 +351,11 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
     int bracCount = 0;
     for(int vectIndex = 0; vectIndex < elements.size(); vectIndex++)
     {
+        //std::cout << vectIndex << std::endl;
         // If there are brackets in the string
         if(bracketStartStringFinder(elements[vectIndex]))
         {
+            //std::cout << "#IF" << std::endl;
             if(bracCount == 0)
             {
                 start = vectIndex;
@@ -363,13 +365,16 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
         // If there are no brackets in the string
         else if(bracketStopStringFinder(elements[vectIndex]))
         {
-            if(bracCount == +1)
+            //std::cout << "#ELSE IF" << std::endl;
+            if(bracCount == 1)
             {
                 stop = vectIndex;
             }
             bracCount--;
         }
     }
+    //std::cout << "start : stop+1 \t" << start << " : " << stop+1 << std::endl;
+
     std::tuple<int, int> vectPos (start, stop +1);
     return vectPos;
 }
@@ -378,17 +383,17 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
 // Get subvector
 std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elements, int start, int stop)
 {
-    vectorStrPrinter(elements);
-    std::cout << "start: " << start << ", stop: " << stop << std::endl;
+    //vectorStrPrinter(elements);
+    //std::cout << "BracketedSubvectExtractor: start: " << start << ", stop: " << stop << std::endl;
 
     std::vector<std::string> subVect;
     for(int vectIndex = start; vectIndex < stop; vectIndex++)
     {
-        std::cout << vectIndex << " : " << elements[vectIndex] << std::endl;
+        //std::cout << vectIndex << " : " << elements[vectIndex] << std::endl;
         subVect.push_back(elements[vectIndex]);
     }
-    std::cout << "bracketedSubvectExtractor end: ";
-    vectorStrPrinter(subVect);
+    //std::cout << "bracketedSubvectExtractor end: ";
+    //vectorStrPrinter(subVect);
     return subVect;
 }
 
@@ -397,22 +402,30 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 double calculationHandler(std::vector<std::string> elements)
 {
     //std::cout << "#Test 1" << std::endl;
-    vectorStrPrinter(elements);
+    //vectorStrPrinter(elements);
     // If vector has brackets
     if(bracketVectFinder(elements))
     {
-        std::cout << "Brackets found" << std::endl;
+        //std::cout << "Brackets found" << std::endl;
         std::tuple<int, int> bracPos = bracketIndex(elements);
         //std::vector bracVect = bracketedSubvectExtractor(elements, bracPos[0], bracPos[1]);
-        std::cout << "[0]: " << std::get<0>(bracPos) << ", [1]: " << std::get<1>(bracPos) << std::endl;
+        //std::cout << "bracPos[0]: " << std::get<0>(bracPos) << ", bracPos[1]: " << std::get<1>(bracPos) << std::endl;
         std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
+        //vectorStrPrinter(bracVect);
         elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
-        std::cout << "return from brackets: " << elements[std::get<0>(bracPos)] << std::endl;
-        elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + (std::get<1>(bracPos) - std::get<0>(bracPos)) +4);
-        vectorStrPrinter(elements);
+        std::cout << "Recursive return: " << std::to_string(calculationHandler(bracVect)) << std::endl;
+        //std::cout << "return from brackets: " << elements[std::get<0>(bracPos)] << std::endl;
+        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + (std::get<1>(bracPos) - std::get<0>(bracPos) +2));
+        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + (std::get<1>(bracPos) - std::get<0>(bracPos)) +2);
+        //elements.erase(std::remove(elements.begin(), elements.end(), (std::get<1>(bracPos) - std::get<0>(bracPos)), elements.end());
+        //elements.erase(elements.begin() + std::get<0>(bracPos) +1, elements.begin() + std::get<1>(bracPos) -1);
+        //elements.erase(elements.begin() + std::get<1>(bracPos) -1);
+        int start   = std::get<0>(bracPos) +1;//elements.begin() +1;
+        int stop    = std::get<1>(bracPos);//stop +
+        std::cout << start << " : " << stop << std::endl;
+        elements.erase(elements.begin() + start,     elements.begin() + stop);
+        //vectorStrPrinter(elements);
     }
-    //std::cout << "#Test 2" << std::endl;
-    vectorStrPrinter(elements);
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
         int elemIndex = 0;
@@ -423,13 +436,11 @@ double calculationHandler(std::vector<std::string> elements)
             {
                 // If bracket start
                 //if(elements[elemIndex][0] == '(' || elements[elemIndex +1][0] == '(' || elements[elemIndex +2][0] == '(')
-                {
 
-                }
-                std::cout << "if char in while: ";
+                //std::cout << "if char in while: ";
                 vectorStrPrinter(elements);
-                std::cout << elements[elemIndex +2] << std::endl;
-                std::cout << "inputs: " << stringToDouble(elements[elemIndex]) << " " << elements[elemIndex +1][0] << " " << stringToDouble(elements[elemIndex +2]) << std::endl;
+                //std::cout << elements[elemIndex +2] << std::endl;
+                //std::cout << "inputs: " << stringToDouble(elements[elemIndex]) << " " << elements[elemIndex +1][0] << " " << stringToDouble(elements[elemIndex +2]) << std::endl;
                 elements[elemIndex] = std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
                 elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
                 std::cout << "result: " << elements[elemIndex] << std::endl;
