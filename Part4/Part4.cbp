@@ -15,6 +15,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="resources" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
