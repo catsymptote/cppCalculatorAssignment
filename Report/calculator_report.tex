@@ -1,8 +1,31 @@
 \documentclass{article}
 
+% Citations and Bibtex
+\usepackage{cite}
+
 % Sections and chapters
 %\usepackage{blindtext}
 \usepackage[utf8]{inputenc}
+
+% Margins
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+% For tabs
+\usepackage{tabto}
+\usepackage{parskip}
+\setlength{\parindent}{15pt}
+\makeatletter
+\newcommand\tabfill[1]{%
+	\dimen@\linewidth
+	\advance\dimen@\@totalleftmargin
+	\advance\dimen@-\dimen\@curtab
+	\parbox[t]\dimen@{%
+		\leftskip=2em\hspace*{-2em}#1\ifhmode\unskip\nobreak\strut\fi
+	}%
+}
+\makeatother
+
+\textwidth=.75\textwidth % just to make wrapping more evident
 
 % For links
 \usepackage[hidelinks]{hyperref}
@@ -66,24 +89,97 @@
 	
 	
 	\section{Introduction}
-		\subsection{Task description}
-			*Task description goes here*
-		% End of subsection 1
+		This assignment is created in multiple parts, each part partly build on each other. Depending on how good control you feel you have in C++ you may start directly on parts 2, 3, or 4.
+		
+		To pass this assignment a complete solution to part 2, 3, or 4 is required.
+		
+		The assignment should be programmed in C++ and the code with accompanying report are to be submitted. It is expected that the court will handle a wide range of error conditions. E.g. that an illegal operator, letter, or no number is entered.
+		
+		By operator it is meant + - *and/
+		
+		\subsection{Part 1}
+			Create a program I will read to numbers and an operator from the keyboard and print out the results. \\
+			
+			E.g.
+			
+			The text behind $>$ in each line is what is entered in runtime.
+			\begin{lstlisting}[numbers=none]
+				Number 1>	20
+				Operator>	*
+				Number 2>	5
+				
+				The answer of 20 * 5 is 100.
+			\end{lstlisting}
+
+		% End of Part 1
+		\subsection{Part 2}
+			Create a program that reads a string containing two numbers and an operator and print out the results. The string is to be interpreted by your programme. 
+			
+			In the example below both lines should work equally well:
+			
+			\begin{lstlisting}[numbers=none]
+				Please enter to numbers with an operator in between> 10 + 15
+				
+				The answer to 10 + 15 is 25.
+			\end{lstlisting}
+
+			
+
+			\begin{lstlisting}[numbers=none]
+				Please enter to numbers with an operator in between> 10+15
+				
+				The answer to 10 + 15 is 25.
+			\end{lstlisting}
+			
+		% End of Part 2
+		\subsection{Part 3}
+			Create a program that reads a string containing multiple numbers and operators and prints out the result .
+			
+			Example:
+			\begin{lstlisting}[numbers=none]
+				Please enter the input string> 2 + 3 * 5
+				
+				2 + 3 * 5 is 17.
+			\end{lstlisting}
+		% End of Part 3
+		\subsection{Part 4}
+			Create a program that reads a string containing multiple numbers and operators and prints out the result. The addition in part four is that it should be possible to use () two control how the calculation is performed in addition the program should be able to handle an infinite number of parameters. You should also try to add other operators e.g.  \% , \^~etc. \cite{UML2}
+			
+			A natural extension to this program is also to create an opportunity to read that string from the command line as the program is started. ~\cite{cpplang4}
+			
+			Example:
+			\begin{lstlisting}[numbers=none]
+				Please give the input string
+				> 4 + 5 + (7 + 4) * 3 + 4 * 4 + 9 / 3 + 4 * 12 – 3 / 4
+				
+				The answer to 4 + 5 + (7 + 4) * 3 + 4 * 4 + 9 / 3 + 4 * 12 – 3 / 4
+				is 108.25.
+			\end{lstlisting}
+		% End of Part 3
 		\subsection{Some other point}
 			*Point here?*
 		% End of subsection 2
 	% End of section 1
 	\\ \\
 	\section{Method}
-		\subsection{Methodologies}
-			*What methodologies I used to solve the problem*
+		\subsection{Methodologies?}
+		-
+		\\ \\
+		*What methodologies I used to solve the problem*
 		% End of subsection 1
-		\subsection{Solution description}
-			*Brief/conceptual explenation of the solution, with diagrams (merge with above?)*
-		% End of subsection 2
-		\subsection{Code description}
+		*Brief/conceptual explenation of the solution, with diagrams (merge with above?)*
+		\subsection{Part 1}
 			*The code with description*
-		% End of subsection 3
+		% End of Part 1
+		\subsection{Part 2}
+			*The code with description*
+		% End of Part 2
+		\subsection{Part 3}
+			*The code with description*
+		% End of Part 3
+		\subsection{Part 4}
+			*The code with description*
+		% End of Part 4
 	% End of section 2
 	\\ \\
 	\section{Result}
@@ -98,9 +194,10 @@
 	\section{Discussion}
 		*Comments on the project (nonimpersional-ish?)*
 	% End of section 4
-
-		
+	
+	
+	\clearpage
+	
+	\bibliographystyle{plain}
+	\bibliography{biblib}
 \end{document}
-
-
-
