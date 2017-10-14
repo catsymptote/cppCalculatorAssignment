@@ -161,27 +161,510 @@
 		% End of subsection 2
 	% End of section 1
 	\\ \\
+	
+	
+	
+	
+	
 	\section{Method}
-		\subsection{Methodologies?}
-		-
-		\\ \\
-		*What methodologies I used to solve the problem*
+		\subsection{Methodologies}
+			I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful.
 		% End of subsection 1
-		*Brief/conceptual explenation of the solution, with diagrams (merge with above?)*
+		
+		
 		\subsection{Part 1}
-			*The code with description*
+			%\lstinputlisting[language=c++]{files/calculator.cpp}
+			Part 1 of the assignment required me to make a function/method to a simple program that could input two numbers, with an operator (one after each other), so the program could add, subtract, multiply, or divide the numbers by each other.
+			
+			My solution got the input one after the other (number 1 -> operator -> number 2), and saved them as a double, a char, and another double respectively, like shown here:
+			\begin{lstlisting}
+				std::cout << "Number 1> ";
+				double num1;
+				std::cin >> num1;
+				
+				std::cout << "Operator> ";
+				char oper;
+				std::cin >> oper;
+				
+				std::cout << "Number 2> ";
+				double num2;
+				std::cin >> num2;
+			\end{lstlisting}
+			
+			It then sent them to a basic arithmetic solver function I made. This function uses a switch on the operator char, to decide what to do with the two numbers, like this:
+			\begin{lstlisting}
+				case '+':
+					return (num1 + num2);
+					
+				case '*':
+					return (num1 * num2);
+			\end{lstlisting}
+			
+			It then returns the output (double), and main() prints it out. The program is then complete, and waits for the user to pres a key to close the program. The program is very simple, but he basic arithmetic function can be reused in later, more complex versions of the program.
 		% End of Part 1
+		
+		
 		\subsection{Part 2}
-			*The code with description*
+			When solving part 2, I did it in multiple steps, and there are therefore part 2 version 1-4, with incremental changes.
+			\subsubsection{Version 1}
+				In part 2 I made a struct that included the two numbers, and the operator, as shown here:
+				\begin{lstlisting}
+					struct mathOp {
+						double	num1;
+						char	oper;
+						double	num2;
+					}
+				\end{lstlisting}
+				
+				And a struct with the three input strings (number 1, operator, number 2), so it would be simpler to pass between functions. I made a function getInput(), which get the input using std::cin, and returned the three-string-struct:
+				\begin{lstlisting}
+					std::string inNum1, inOper, inNum2;
+					std::cin >> inNum1 >> inOper >> inNum2;
+					/* Return as struct */
+				\end{lstlisting}
+				
+				I then made another function to convert the three-strings-struct to the struct with the number and operator char. This was partly taken from Stackoverflow:
+				\cite{cppConvStr2Chr}
+				\begin{lstlisting}
+					// Convert std::string -> char[]
+					char chNum1[1024];
+					char chNum2[1024];
+					strcpy(chNum1, inNum1.c_str());
+					strcpy(chNum2, inNum2.c_str());
+					
+					// Make struct
+					mathOp thingy;
+					thingy.num1 = atof(chNum1);
+					thingy.num2 = atof(chNum2);
+					thingy.oper = inOper[0];
+				\end{lstlisting}
+				
+				Finally, I used the same basic arithmetic function from part 1 to calculate the answer from the inputted numbers, and return to main for showing the user. \\
+				This worked fine, but it did not technically take in a single string for the operations, and then process it, and therefore did not quite complete the task as it was supposed to.
+			% End of Version 1
+			
+			
+			\subsubsection{Version 2}
+				In version 2, I made the program take in a single string, as such:
+				\begin{lstlisting}
+					std::string inString;
+					getline(std::cin, inString);
+				\end{lstlisting}
+				
+				I then ran it through a function to split the string into a vector into a vector of strings, partly based on an online article: \cite{cppSplitStr}
+				\begin{lstlisting}
+					std::vector<std::string> stringSplitter(std::string inString)
+					{
+						std::istringstream iss(inString);
+						std::vector<std::string> results(
+							(std::istream_iterator<std::string>(iss)),
+							std::istream_iterator<std::string>());
+						return results;
+					}
+				\end{lstlisting}
+				
+				I then made the elements of the string vector into the three-strings-struct, and the rest of the program is the same as version 1. \\
+				The program now actually takes in a single string, but it does require a space between the variables. The task was to allow both with or without spaces, so I had to to yet another version to add this feature.
+			% End of Version 2
+			
+			
+			\subsubsection{Version 3}
+				In the third version of part 2, I made a few new functions. First, one to remove the spaces from the input string, as these would not be required, and would make the string splitting more complicated. Secondly, two new functions for splitting the string into a string vector; one to find the string indexes of the operators, and one to split the string at those indexes. These two functions allow for longer strings (not just two number and one operator), but the rest of the program is not yet updated for this.
+				The function operatorIndexer() returns an in vector with the operator indexes of the string:
+				\begin{lstlisting}
+					std::vector<int> operatorIndexer(std::string inString)
+					{
+						std::vector<int> operIndexes;
+						
+						for (int strIndex = 0; strIndex < inString.size(); strIndex++)
+						{
+							for (int opIndex = 0; opIndex < sizeof(operators); opIndex++)
+							{
+								if(inString[strIndex] == operators[opIndex])
+								{
+									operIndexes.push_back(strIndex);
+								}
+							}
+						}
+						return operIndexes;
+					}
+				\end{lstlisting}
+				
+				The function named splitStringByIndexVector() is unsurprisingly there to split the string at the indexes of the operators:
+				\begin{lstlisting}
+					std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
+					{
+						std::vector<std::string> elements;
+						
+						int opIndex = 0;
+						int strPos = 0;
+						int nextOp = 0;
+						int prevOp = 0;
+						while(opIndex < operIndexes.size() +1)
+						{
+							nextOp = operIndexes[opIndex];
+							
+							// Number
+							elements.push_back(inString.substr( strPos, nextOp - prevOp ));  // 0, nextOp
+							
+							// Operator
+							if (opIndex < operIndexes.size())
+							{
+								elements.push_back(inString.substr( nextOp, 1 ));  // 4, 1
+							}
+							
+							strPos = nextOp +1;
+							prevOp = nextOp +1;
+							opIndex++;
+						}
+						
+						return elements;
+					}
+				\end{lstlisting}
+				
+				This functions (and the rest of the program) assumes num, op, num, op, num, in this order. If you put multiple operators in a row, it will be sad.
+			% End of Version 3
+			
+			
+			\subsubsection{Version 4}
+				Version 4 mainly splits the functionality from version 3 into different files, based on what they do (some has .h and .cpp, others just .h).
+				\begin{itemize}
+					\item ioHandler 		- Deals with (most of) the input and output functionality of the program. It includes:
+					\begin{itemize}
+						\item getUserinput()			- Gets the user input.
+						\item vectorPrinter()			- Prints out an int vector.
+						\item vectorStrPrinter() 		- Prints out an string vector.
+					\end{itemize}
+				
+					\item mathCalculation 	- Deals with the arithmetic calculations. It only has one function:
+					\begin{itemize}
+						\item operatorFunction()		- Basic arithmetic function.
+					\end{itemize}
+				
+					\item stringHandler 	- Deals with all string things. I.e. string -> vector<string>:
+					\begin{itemize}
+						\item removeStringSpaces()		- Removes spaces in the input string.
+						\item operatorIndexer()			- Find the indexes of the operators in the string.
+						\item splitStringByIndexVector()- Splits the string into a string vector based on the operator indexes.
+						\item stringSplitter()			- Probably a vestigial function. This is why clean coding is important, kids.
+						\item stringConverter()			- Converts three strings into two numbers and a char.
+					\end{itemize}
+				
+					\item globalDef			- Defines the structs used, and a char array of the allowable operators.
+				\end{itemize}
+			% End of Version 4
 		% End of Part 2
+		
+		
 		\subsection{Part 3}
-			*The code with description*
+			As with part 2, part 3 is split into two versions. Version 1 takes an input of multiple numbers and operators, fulfilling that part of the task. It does not, however, follow the correct order of operations, but calculates from left to right. This means 2 + 3*5, which should be 2 + 15 = 17, actually becomes (2+3)*5 = 5*5 = 25. Version two follows the order of operations.
+			
+			\subsubsection{Version 1}
+				Part 3 version 1 continues where part 2 version 4 ended. String to double conversion is its own function:
+				\begin{lstlisting}
+					double stringToDouble(std::string str)
+					{
+						char chr[1024];
+						strcpy(chr, str.c_str());
+						return atof(chr);
+					}
+				\end{lstlisting}
+				
+				The three-string-struct is no longer used, as it now has to support an 'unlimited' number of numbers and operators.
+				More operators hare supported (\^~, \%, /, *, -, +).
+				The main difference is in the funtion ltrCalculationHandler (ltr == left to right), in the mathCalculation files. This is the function that uses the string vector and calculates the elements of the vector, 3 by 3, from left to right, using the basic arithmetic function.
+				\begin{lstlisting}
+					double ltrCalculationHandler(std::vector<std::string> elements)
+					{
+						std::string solution;
+						std::string tmp;
+						double num1;
+						while (elements.size() >= 3)
+						{
+							mathOp relElem = stringConverter(elements[0], elements[1], elements[2]);
+							tmp = elements[0] + " " + elements[1] + " " + elements[2] + " = ";
+							
+							elements[0] = std::to_string( basicOperatorFunction(relElem.num1, relElem.oper, relElem.num2) );
+							elements.erase(elements.begin() +1, elements.begin() +3);   // Remove 2. and 3. element
+							
+							tmp += elements[0] + "\n";
+							solution.append(tmp);
+						}
+						///std::cout << "solution: " << solution << std::endl;
+						return stringToDouble(elements[0]);
+					}
+				\end{lstlisting}
+				
+				It takes the first three elements (which are num1, operator, num2), user the arithmetic calculator to return their solution, places the result in the index of num1, and removes the operator and num2 indexes from the vector. It repeats this until the entire vector is finished, and has a length of 1. It then returns the result for printing.
+			% End of Version 1
+			
+			
+			\subsubsection{Version 2}
+				Version 2 removes the mathOp struct (double num1, char oper, double num2), as the conversion functionality has been moved to the function calculationHandler().
+				The main difference in version 2 is however that the calculations is now following the order of operations. It does this by using the order of the operators in the operator char array.
+				\begin{lstlisting}
+					const static char operators[] = {
+						'^',    // 1 - Exponents
+						'/',    // 2 - Division
+						'%',    // 3 - Modulus
+						'*',    // 4 - Multiplication
+						'-',    // 5 - Subtraction
+						'+'     // 6 - Addition
+					};
+				\end{lstlisting}
+				
+				In the calculationHandler function, it loops through the vector inside a loop going through the operators.
+				It first looks for operators[0] (' \^~'), and completes any it finds. Then it continues with division, multiplication, etc. This way it can first solve the 'most important' calculation, then the 'less important'. The order of the operators in the char array defines the order of operations for the calculator to follow.
+				\begin{lstlisting}
+					double calculationHandler(std::vector<std::string> elements)
+					{
+						for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
+						{
+							int elemIndex = 0;
+							while(elements.size() >= elemIndex +2)
+							{
+								// Check if the next character is an operator
+								if(elements[elemIndex +1][0] == operators[opIndex])
+								{
+									// Note to self: longer lines are harder to debug.
+									elements[elemIndex] = std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
+									
+									elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
+								}
+								else
+								{
+									elemIndex += 2;
+								}
+							}
+						}
+						return stringToDouble(elements[0]);
+					}
+				\end{lstlisting}
+			% End of Version 2
 		% End of Part 3
+		
+		
 		\subsection{Part 4}
-			*The code with description*
+			Part 4 only has 1 version, but has a lot more large changes from the previous versions. I changed the file structure again, so it only has two files, making it a bit simpler to use for other projects I may use it for.
+			Part 4 adds a few new char arrays for legal characters, operators, and brackets.
+			\begin{lstlisting}
+				/// Any supported operators (including brackets).
+				const static char operatorsAndBrackets[] = {
+					'(', ')',   // 0 - Brackets
+					'[', ']',
+					'{', '}',
+					'^',    // 1 - Exponents
+					'/',    // 2 - Division
+					'%',    // 3 - Modulus
+					'*',    // 4 - Multiplication
+					'-',    // 5 - Subtraction
+					'+'     // 6 - Addition
+				};
+				
+				/// Supported operators (excluding brackets). Order is important for order of operations!!
+				const static char operators[] = {
+					'^',    // 1 - Exponents
+					'/',    // 2 - Division
+					'%',    // 3 - Modulus
+					'*',    // 4 - Multiplication
+					'-',    // 5 - Subtraction
+					'+'     // 6 - Addition
+				};
+				
+				
+				/// Char array of all legal input characters
+				const static char legalChars[] = {
+					'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',   // Numbers
+					'(', ')', '[', ']', '{', '}',                       // Brackets
+					'^', '%', '/', '*', '-', '+'                        // Operators
+				};
+			\end{lstlisting}
+			
+			These are used for:
+			\begin{itemize}
+				\item operatorsAndBrackets[] 	- Include all the operator characters. This is used when splitting the string into numbers and operators.
+				\item operators[]				- Used for following the order of operations. Its index order is therefore important.
+				\item legalChars[]				- Lists the legal characters to input. Used when checking if the input string is following the rules set by the program.
+			\end{itemize}
+			
+			I added a few new functions for the input and conversion:
+			\begin{itemize}
+				\item calcInputPrint()	- user input -> string -> string vector -> calculation -> print
+				\item calcInput()		- string -> string vector -> calculation -> print
+				\item calcVect()		- string vector -> calculation -> print
+			\end{itemize}
+		
+			This allows the user to input in the console, or input from another file, either as string or vector.
+			I also added a legality check function, to see if the input string is acceptable, or if it includes illegal characters. It returns true if the string includes illegal characters.
+			\begin{lstlisting}
+				bool charLegality(std::string str)
+				{
+					bool illegal = false;
+					for(int strIndex = 0; strIndex < str.length(); strIndex++)
+					{
+						illegal = true;
+						for(int legalCharIndex = 0; legalCharIndex < sizeof(legalChars); legalCharIndex++)
+						{
+							if(str[strIndex] == legalChars[legalCharIndex])
+							{
+								illegal = false;
+							}
+						}
+						if(illegal)
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+			\end{lstlisting}
+			
+			There is also a new string -> string vector conversion function, which does not use the indexes, as this was problematic using multiple operators in a row. And this is of course expected when including brackets. It still assumes certain things about the string, such that it ends in a number, but it is better than the last version.
+			\begin{lstlisting}
+				std::vector<std::string> stringToVector(std::string str)
+				{
+					std::vector<std::string> elements;
+					
+					int flag = -1;
+					/// Loop through chars in string.
+					for(int strIndex = 0; strIndex < str.size() +1; strIndex++)
+					{
+					/// If char in string is an operator character.
+						if(charIsOper(str[strIndex]))
+						{
+							elements.push_back(str.substr(flag +1, strIndex-flag -1));  /// Add number
+							elements.push_back(str.substr(strIndex, 1));                /// Add operator
+							
+							/// While next char is also an operator (when multiple operators in a row).
+							while(charIsOper(str[strIndex +1]))
+							{
+								elements.push_back(str.substr(strIndex +1, 1));    /// Add operator
+								strIndex++;
+								}
+								flag = strIndex;
+							}
+					}
+					/// Add last number to element.
+					elements.push_back(str.substr(flag +1, str.length()));
+					return elements;
+				}
+			\end{lstlisting}
+			
+			When implementing support for brackets, I had to add multiple new functions:
+			\begin{itemize}
+				\item bracketFinder()				- This may be another vestigial function.
+				\item bracketStartStringFinder()	- Checks if string (from vector element) includes a start bracket: '(', '[', '\{'.
+				\item bracketStopStringFinder()		- Checks if string (from vector element) includes a start bracket: ')', ']', '\}'.
+				\item bracketVectFinder()			- Checks if string vector (or sub vector) includes any brackets.
+				\item bracketIndex()				- Returns the index of a start bracket and its ending bracket.
+				\item bracketedSubvectExtractor()	- Returns the sub vector between the brackets.
+			\end{itemize}
+			
+			The basic arithmetic function has gotten a few checks, like a dividing by zero check etc, and is therefore a bit bigger:
+			\begin{lstlisting}
+				double basicOperatorFunction(double num1, char oper, double num2)
+				{
+					switch (oper)
+					{
+						case '+':
+							return (num1 + num2);
+							
+						case '-':
+							return (num1 - num2);
+							
+						case '*':
+							return (num1 * num2);
+							
+						case '/':
+							if(num2 != 0)
+							{
+								return (num1 / num2);
+							}
+							else
+							{
+								std::cout << "\nDividing by 0 is naughty ;P"
+									<< std::endl;
+								return 0;
+							}
+							
+						case '%':
+							if(num2 != 0)
+							{
+								return (fmod(num1, num2));
+							}
+							else
+							{
+								std::cout << "\nDividing by 0 is naughty ;P"
+									<< std::endl;
+								return 0;
+							}
+							
+						case '^':
+							if(!(num1 == 0 && num2 == 0))
+							{
+								return (pow(num1, num2));
+							}
+							else
+							{
+								std::cout << "\n0^0 is undefined. Google it."
+									<< std::endl;
+								return 0;
+							}
+							
+						default:
+							std::cout   << "Error. Operator " << oper
+							<< " not recognized"  << std::endl;
+							break;
+					}
+					return 0;
+				}
+			\end{lstlisting}
+			
+			Finally, the calculationHandler function now has support for brackets.
+			\begin{lstlisting}
+				double calculationHandler(std::vector<std::string> elements)
+				{
+					if(bracketVectFinder(elements))
+					{
+						std::tuple<int, int> bracPos = bracketIndex(elements);
+						std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
+						elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
+						int start   = std::get<0>(bracPos) +1;
+						int stop    = std::get<1>(bracPos);
+						elements.erase(elements.begin() + start,     elements.begin() + stop);
+					}
+					for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
+					{
+						int elemIndex = 0;
+						while(elements.size() >= elemIndex +2)
+						{
+							/// If acceptable operator
+							if(elements[elemIndex +1][0] == operators[opIndex])
+							{
+								elements[elemIndex] = std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
+								elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
+							}
+							else
+							{
+								elemIndex += 2;
+							}
+						}
+					}
+					return stringToDouble(elements[0]);
+				}
+			\end{lstlisting}
+			While large parts of this function is the same as before, it has a bracket check first. This first checks if there are brackets, and if there are none, it completes as usual. If there are brackets, however, it then finds them, extracts the subvector between the brackets, and recursively passes them back into itself. It will then check if the subvector has brackets. If yes: more recursion. If no: solve the subvector, return into the main vector, and solve the rest of it. Due to the recursive nature of this function, it also supports brackets inside brackets, like in this example: \\
+			18 + ((3* (4-3/(2+1)-1)* 7)\%7)+1 \\
+			The result from
+			\href{http://www.wolframalpha.com/input/?i=18+\%2B+((3*+(4-3\%2F(2\%2B1)-1)*+7)\%257)\%2B1}{Wolfram Alpha}
+			is 19. The result from my program is 19.
+			
+			Part 4 also got an icon taken from
+			\href{http://www.iconarchive.com/show/sevenesque-icons-by-tristan-edwards/Calculator-icon.html}{IconArchive}.
 		% End of Part 4
 	% End of section 2
-	\\ \\
+	
+	
 	\section{Result}
 		\subsection{Functionality}
 			*What the program does/how it works (impersonal)*
