@@ -15,12 +15,9 @@
 
 /// Any supported operators (including brackets).
 const static char operatorsAndBrackets[] = {
-    '(',    // 0 - Brackets
-    ')',
-    '[',
-    ']',
-    '{',
-    '}',
+    '(', ')',   // 0 - Brackets
+    '[', ']',
+    '{', '}',
     '^',    // 1 - Exponents
     '/',    // 2 - Division
     '%',    // 3 - Modulus
@@ -29,7 +26,8 @@ const static char operatorsAndBrackets[] = {
     '+'     // 6 - Addition
 };
 
-/// Supported operators (excluding brackets). Order is important for order of operations!!
+/// Supported operators (excluding brackets).
+/// Order is important for order of operations!!
 const static char operators[] = {
     '^',    // 1 - Exponents
     '/',    // 2 - Division
@@ -42,9 +40,9 @@ const static char operators[] = {
 
 /// Char array of all legal input characters
 const static char legalChars[] = {
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',   // Numbers
-    '(', ')', '[', ']', '{', '}',                       // Brackets
-    '^', '%', '/', '*', '-', '+'                        // Operators
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',  // Numbers
+    '(', ')', '[', ']', '{', '}',                           // Brackets
+    '^', '%', '/', '*', '-', '+'                            // Operators
 };
 
 

@@ -141,7 +141,6 @@ std::string removeStringSpaces(std::string str)
     return str;
 }
 
-
 /// Alternative (new) to splitStringByIndexVector() and operatorIndexer().
 std::vector<std::string> stringToVector(std::string str)
 {
@@ -170,7 +169,6 @@ std::vector<std::string> stringToVector(std::string str)
     elements.push_back(str.substr(flag +1, str.length()));
     return elements;
 }
-
 
 /// Splits input string into string-vector (old)
 std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
