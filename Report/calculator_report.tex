@@ -2,6 +2,10 @@
 
 % Citations and Bibtex
 \usepackage{cite}
+% Because underscores in .bib or something.
+% I think underscores in the bibtex name/code is bad.
+	\usepackage[strings]{underscore}
+%\usepackage{url}
 
 % Sections and chapters
 %\usepackage{blindtext}
@@ -160,15 +164,19 @@
 			*Point here?*
 		% End of subsection 2
 	% End of section 1
-	\\ \\
+	
 	
 	
 	
 	
 	
 	\section{Method}
-		\subsection{Methodologies}
 			I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful.
+			
+			All the coding has been done in
+			\href{http://www.codeblocks.org/}{Code::Blocks v16.01}.
+			The first parts of the project were compiled using the \href{https://sourceforge.net/projects/mingw/files/}{MinGW 32 bit (x86) compiler}, but I later changed to the \href{https://sourceforge.net/projects/mingw-w64/}{MinGW-w64 64 bit compiler}, due to unrelated projects that required a 64 bit compiler.
+			I also use the \href{http://www.stroustrup.com/C++11FAQ.html}{C++11 language standards}.
 		% End of subsection 1
 		
 		
@@ -666,17 +674,46 @@
 	
 	
 	\section{Result}
-		\subsection{Functionality}
-			*What the program does/how it works (impersonal)*
-		% End of subsection 1
-		\subsection{Formatting}
-			*Formatting, error handling, rules/legality, etc.*
-		% End of subsection 1
+		The program (part 4) runs on a loop, which allows the user to calculate as much as they want, without having to reopen the program for every line.
+		It supports addition (+), subtractions (-), multiplication (*), division (/), modulus/remainder (\%), power (\^~), as well as bracketed mathematics. \\
+		There are still some bugs with formatting of the input:
+		\begin{itemize}
+			\item Requires operator before and after bracket when doing multiplication [i.e. "2(4.." should be "2*(4.."].
+			\item Does not like starting or ending with a bracket ["(1+2)" is bad, "1+(2+3)+4" is fine].
+			\item Some issues with multiple bracket pairs after each other ["1+(2+(3+4))" is fine, "1+(2+3)+(4+5)" is problematic].
+		\end{itemize}
+		
+		Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
+		(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
 	% End of section 3
-	\\ \\
+	
+	
 	\section{Discussion}
 		*Comments on the project (nonimpersional-ish?)*
 	% End of section 4
+	
+	
+	
+	\section{tmpResult}
+	
+	Thus far the program is able to move the camera around using mouse movement + hold mouse button.
+	This can also be achieved using keyboard buttons.
+	The user can zoom the camera in and out using the scroll wheel on the mouse.
+	They can also change some of the parameters of the pre-implemented objects.
+	There are also a few other functionalities, like a button for closing the program.
+	
+	
+	
+	% 4
+	\section{tmpDiscussion}
+	*what the result means for the future or whatever Idk*
+	As I was unable to work a lot on the project the second week due to illness,
+	I did not have time to implement all the wanted features,
+	like a function al save/load function, and more object manipulation.
+	I also changed my plans from the project plan/sketch massively for partly the same reason. \cite{CGD_ProjPlanRep2016} %!!!!!!
+	In my project plan report, I said that I imagined this would be a hard project to complete,
+	and that combined with less time due to previously discussed reasons,
+	I think that was a fair difficulty estimation.
 	
 	
 	\clearpage
