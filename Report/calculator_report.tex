@@ -95,8 +95,8 @@
 	% for prettificatory reasons
 	\hfill \break
 	% Abstract
-	This assignment is to program a calculator.
-	The assignment is created in multiple parts, each part partly build on each other. It should be programmed in C++, and it should handle a wide range of error conditions. E.g. that an illegal operator, letter, or no number is entered.
+	This assignment is to create a calculator program.
+	The assignment is consisting of multiple parts, each part cumulatively build on each other. It should be programmed in C++, and should handle a wide range of error conditions.
 	
 	% Horizontal line
 	\begin{center}
@@ -164,9 +164,9 @@
 			\end{lstlisting}
 		% End of Part 3
 		\subsection{Part 4}
-			Create a program that reads a string containing multiple numbers and operators and prints out the result. The addition in part four is that it should be possible to use () two control how the calculation is performed in addition the program should be able to handle an infinite number of parameters. You should also try to add other operators e.g.  \% , \^~etc. \cite{UML2}
+			Create a program that reads a string containing multiple numbers and operators and prints out the result. The addition in part four is that it should be possible to use () two control how the calculation is performed in addition the program should be able to handle an infinite number of parameters. You should also try to add other operators e.g.  \% , \^~etc.
 			
-			A natural extension to this program is also to create an opportunity to read that string from the command line as the program is started. ~\cite{cpplang4}
+			A natural extension to this program is also to create an opportunity to read that string from the command line as the program is started.
 			
 			Example:
 			\begin{lstlisting}[numbers=none]
@@ -184,14 +184,13 @@
 	
 	
 	\section{Method}
-		I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful.
+		I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful. This also seems to be what the assignment advices. It may however negatively affect the structuredness of the code.
 		
 		All the coding has been done in
 		\href{http://www.codeblocks.org/}{Code::Blocks v16.01}.
 		The first parts of the project were compiled using the \href{https://sourceforge.net/projects/mingw/files/}{MinGW 32 bit (x86) compiler}, but I later changed to the \href{https://sourceforge.net/projects/mingw-w64/}{MinGW-w64 64 bit compiler}, due to unrelated projects that required a 64 bit compiler.
 		The \href{http://www.stroustrup.com/C++11FAQ.html}{C++11 language standards} is being used as well.
-		Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
-		(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
+		Calculations are done with long double floating point precision\cite{cpplang4}, which means it great precision, at a 128-bit quadruple precision format. \cite{doubleArithmetic} \cite{wikiDouble} \cite{wikiLongDouble}
 	% End of section 2 - Method
 	
 	
@@ -784,18 +783,16 @@
 				%\item Some issues with multiple bracket pairs after each other ["1+(2+(3+4))+5" is fine, "1+(2+3)+(4+5)+6" is problematic].
 				% Fixed by making bracket check if(...) -> while(...)
 			\end{itemize}
-			
-			Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
-			(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
 		% End of Summary
 	% End of section 3 - Results
 	
 	
 	\section{Discussion}
-		As this program are early in the C++ course, I did not include a lot of features and design mechanigs that we had yet to cover in class. Things like exception handling, object orientated analysis, design, and programming, and not much use of pointers.
-		I therefore did not implement as many rule checks and exception handling (and because I did not find this as entertaining and educational as other projects I was working on). If I were to redo it at some point, I would design it more object oriented, more pointers and references. I would probably use a deque or preferably list instead of vector, due to their more efficient changing (and insertions).
-		I could have also added a prettier user interface, but this project did not ask for any such thing, and I therefore kept it simple. This also makes sense if using it in other projects.
-		The project became a bit unstructured towards the end, as the changes was cumulatively added from part 1 to part 4. The code may be deesigned better if planned according to the final plan, rather than part by part.
+		As this program are early in the C++ course, I did not include a lot of features and design mechanics that we had yet to cover in class. Things like exception handling, object orientated analysis, design, and programming, and not much use of pointers.
+		I therefore did not implement as many rule checks and exception handling (and because I did not find this as entertaining and educational as other projects I was working on). If I were to redo it at some point, I would design it more object oriented, and with more pointers and references. I would probably use a deque or preferably list instead of vector, due to their more efficient changing (and insertions).
+		I could have also added a prettier user interface, but this project did not ask for any such thing, and I therefore kept it simple. This also makes sense if using it in other projects. I would also like to expand its functionality to allow for solving basic algebra.
+		The project became a bit unstructured towards the end, as the changes was cumulatively added from part 1 to part 4. The code may be designed better if planned according to the final plan, rather than part by part.
+		
 	% End of section 4 - Discussion
 	
 	
