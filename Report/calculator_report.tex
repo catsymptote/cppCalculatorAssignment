@@ -548,7 +548,53 @@
 				}
 			\end{lstlisting}
 			
-			There is also a new string -> string vector conversion function, which does not use the indexes, as this was problematic using multiple operators in a row. And this is of course expected when including brackets. It still assumes certain things about the string, such that it ends in a number, but it is better than the last version.
+			And a function to find unsafe/illegal use of brackets:
+			\begin{lstlisting}
+				bool bracketLegality(std::string str)
+				{
+					/// Test if there are the same amount of start and ending brackets
+					int startBracketCounter = 0;
+					int endBracketCounter = 0;
+					for(int strIndex = 0; strIndex < str.length(); strIndex++)
+					{
+						if(str[strIndex] == '(' || str[strIndex] == '[' || str[strIndex] == '{')
+						{
+							startBracketCounter++;
+						}
+						else if(str[strIndex] == ')' || str[strIndex] == ']' || str[strIndex] == '}')
+						{
+							endBracketCounter++;
+						}
+						}
+							if(startBracketCounter != endBracketCounter)
+						{
+						return false;
+					}
+						
+					/// Test if two brackets after each other (( or ))
+					for(int strIndex = 1; strIndex < str.length() -1; strIndex++)
+					{
+						if(str[strIndex] == '(' || str[strIndex] == '[' || str[strIndex] == '{')
+						{
+							if(str[strIndex -1] == '(' || str[strIndex -1] == '[' || str[strIndex -1] == '{')
+							{
+								return false;
+							}
+						}
+						if(str[strIndex] == ')' || str[strIndex] == ']' || str[strIndex] == '}')
+						{
+							if(str[strIndex +1] == ')' || str[strIndex +1] == ']' || str[strIndex +1] == '}')
+							{
+							return false;
+							}
+						}
+					}
+					
+					return true;
+				}
+			\end{lstlisting}
+			
+			There is also a new string $->$ string vector conversion function, which does not use the indexes, as this was problematic using multiple operators in a row. And this is of course expected when including brackets. It still assumes certain things about the string, such that it ends in a number, but it is better than the last version.
 			\begin{lstlisting}
 				std::vector<std::string> stringToVector(std::string str)
 				{
@@ -653,14 +699,40 @@
 			\begin{lstlisting}
 				double calculationHandler(std::vector<std::string> elements)
 				{
+					bool numBeforeBracket, numAfterBracket;
+					std::vector<std::string>::iterator it;
 					while(bracketVectFinder(elements))
 					{
 						std::tuple<int, int> bracPos = bracketIndex(elements);
-						std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
-						elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
 						int start   = std::get<0>(bracPos) +1;
-						int stop    = std::get<1>(bracPos);
-						elements.erase(elements.begin() + start,     elements.begin() + stop);
+						int stop    = std::get<1>(bracPos) -1;
+						std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, start, stop);
+						elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
+						
+						// Checks whether to add * before and/or after bracket when num()num instead of num*()*num.
+						numBeforeBracket   = false;
+						numAfterBracket    = false;
+						if(!charIsOper(elements[start -2][0]))
+						{
+							numBeforeBracket = true;
+						}
+						if(!charIsOper(elements[stop +1][0]))
+						{
+							numAfterBracket = true;
+						}
+						
+						// Delets the bracketed part
+						elements.erase(elements.begin() + start, elements.begin() + stop +1);
+						
+						// Adds the * before/after bracketed part.
+						if(numBeforeBracket)
+						{
+							it = elements.insert(elements.begin() + start -1, "*");
+						}
+						if(numAfterBracket)
+						{
+							it = elements.insert(elements.begin() + start +1, "*");
+						}
 					}
 					for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
 					{
@@ -686,13 +758,14 @@
 			18 + ((3* (4-3/(2+1)-1)* 7)\%7)+1 \\
 			The result from
 			\href{http://www.wolframalpha.com/input/?i=18+\%2B+((3*+(4-3\%2F(2\%2B1)-1)*+7)\%257)\%2B1}{Wolfram Alpha}
-			is 19. The result from my program is 19.
+			is 19. The result from my program is 19. \\
+			Part 4 also got an icon taken from
+			\href{http://www.iconarchive.com/show/sevenesque-icons-by-tristan-edwards/Calculator-icon.html}{IconArchive}.
 		% End of Part 4
 		
 		
 		\subsection{Summary}
-			Part 4 also got an icon taken from
-			\href{http://www.iconarchive.com/show/sevenesque-icons-by-tristan-edwards/Calculator-icon.html}{IconArchive}.
+			
 
 	
 			The different parts/versions of the program cumulatively adds the following features/functionality:
