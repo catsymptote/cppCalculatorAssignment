@@ -88,6 +88,16 @@ bool charLegality(std::string str)
 /// Return false if string includes illegal use of brackets.
 bool bracketLegality(std::string str)
 {
+    /// Check if the string starts or ends with a bracket.
+    if(str[0] == '(' || str[0] == '[' || str[0] == '{')
+    {
+        return false;
+    }
+    if(str[0] == ')' || str[0] == ']' || str[0] == '}')
+    {
+        return false;
+    }
+
     /// Test if there are the same amount of start and ending brackets
     int startBracketCounter = 0;
     int endBracketCounter = 0;
