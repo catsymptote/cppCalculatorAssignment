@@ -1,6 +1,9 @@
 #include "calculator.h"
 
 
+/// Author: Paul Knutson
+/// Email:  catsymptote@gmail.com
+
 
 /// /// "Interface" Functions /// ///
 

@@ -1,8 +1,11 @@
+#include "calculator.h"
+
 #include <iostream>
 #include <vector>
 
 
-#include "calculator.h"
+/// Author: Paul Knutson
+/// Email:  catsymptote@gmail.com
 
 
 int main()

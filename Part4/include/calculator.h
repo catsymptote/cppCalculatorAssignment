@@ -2,7 +2,6 @@
 #define CALCULATOR_H_INCLUDED
 
 
-
 #include <iostream>     // cout, cin++  - Input and output
 #include <vector>       // vector       - std::vector<T>
 #include <string.h>     // strcpy       - string to double conversion
@@ -13,6 +12,9 @@
 #include <sstream>      // setprecision - For long double to string conversion
 #include <iomanip>      // stringstream - For long double to string conversion
 
+
+/// Author: Paul Knutson
+/// Email:  catsymptote@gmail.com
 
 
 /// Any supported operators (including brackets).
