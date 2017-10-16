@@ -392,6 +392,8 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 double calculationHandler(std::vector<std::string> elements)
 {
+    bool numBeforeBracket   = false;
+    bool numAfterBracket    = false;
     while(bracketVectFinder(elements))
     {
         std::tuple<int, int> bracPos = bracketIndex(elements);
@@ -399,7 +401,50 @@ double calculationHandler(std::vector<std::string> elements)
         elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
         int start   = std::get<0>(bracPos) +1;
         int stop    = std::get<1>(bracPos);
+
+        std::vector<std::string>::iterator it;
+        it = elements.begin();
+
+        std::cout << "test1" << std::endl;
+        std::cout << "elements[start -2][0]: " << elements[start -2][0] << std::endl;
+        // If num( instead of num*(
+        if(!charIsOper(elements[start -2][0]))
+        {
+            std::cout << "test2" << std::endl;
+            numBeforeBracket = true;
+            // insert * at start
+            //it = elements.insert(it + start -1, "*");
+            //std::cout << "test3" << std::endl;
+            //start++;
+            //stop++;
+        }
+        std::cout << "test4" << std::endl;
+        std::cout << "elements.size(): " << elements.size() << std::endl;
+        std::cout << "stop: " << stop << std::endl;
+        std::cout << "elements[stop][0]: " << elements[stop][0] << std::endl;
+        // If )num instread of )*num
+        if(!charIsOper(elements[stop][0]))
+        {
+            std::cout << "test5" << std::endl;
+            numAfterBracket = true;
+            //it = elements.insert(it + stop -1, "*");
+            //std::cout << "test6" << std::endl;
+            // insert * at stop +1
+        }
+
         elements.erase(elements.begin() + start,     elements.begin() + stop);
+        debugVectorStrPrinter(elements);
+
+        if(numBeforeBracket)
+        {
+            it = elements.insert(it + start -1, "*");
+        }
+        if(numAfterBracket)
+        {
+            it = elements.insert(it + start, "*");
+        }
+
+        debugVectorStrPrinter(elements);
     }
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
