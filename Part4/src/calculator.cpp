@@ -124,7 +124,6 @@ bool bracketLegality(std::string str)
                 return false;
             }
         }
-
     }
 
     return true;
@@ -216,60 +215,6 @@ std::vector<std::string> stringToVector(std::string str)
     return elements;
 }
 
-/// Splits input string into string-vector (old)
-std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
-{
-    std::vector<std::string> elements;
-
-    int opIndex = 0;    // Index for the operIndexes list.
-    int strPos = 0;     // Position in the inString.
-    int nextOp = 0;     // The next (current) operator position in inString.
-    int prevOp = 0;     // The previous operator position in inString.
-    while(opIndex < operIndexes.size() +0)
-    {
-        nextOp = operIndexes[opIndex];
-        if(charIsOper(inString[nextOp -1]))
-        {
-            /// Operator
-            elements.push_back(inString.substr( nextOp, 1 ));
-        }
-        else
-        {
-            /// Number
-            elements.push_back(inString.substr(strPos, nextOp - prevOp));
-            /// Operator
-            if (opIndex < operIndexes.size())
-            {
-                elements.push_back(inString.substr( nextOp, 1 ));
-            }
-        }
-
-        /// If last element in the list
-        if(opIndex > operIndexes.size() -2)
-        {
-            elements.push_back(inString.substr(strPos +1, sizeof(inString) -0));
-        }
-        strPos = nextOp +1;
-        prevOp = nextOp +1;
-        opIndex++;
-    }
-    return elements;
-}
-
-/// Find the indexes of the input string. (old)
-std::vector<int> operatorIndexer(std::string inString)
-{
-    std::vector<int> operIndexes;
-
-    for (int strIndex = 0; strIndex < inString.size(); strIndex++)
-    {
-        if(charIsOper(inString[strIndex]))
-        {
-            operIndexes.push_back(strIndex);
-        }
-    }
-    return operIndexes;
-}
 
 /// Check if char is an operator
 bool charIsOper(char inChar)
