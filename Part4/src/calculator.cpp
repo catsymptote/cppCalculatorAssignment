@@ -392,7 +392,7 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 double calculationHandler(std::vector<std::string> elements)
 {
-    if(bracketVectFinder(elements))
+    while(bracketVectFinder(elements))
     {
         std::tuple<int, int> bracPos = bracketIndex(elements);
         std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
