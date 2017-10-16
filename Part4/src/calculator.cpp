@@ -392,60 +392,67 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 double calculationHandler(std::vector<std::string> elements)
 {
-    bool numBeforeBracket   = false;
-    bool numAfterBracket    = false;
+    bool numBeforeBracket, numAfterBracket;
+    std::vector<std::string>::iterator it;
+    int counter = 0;
+    int bracketCounter = 0;
+
     while(bracketVectFinder(elements))
     {
-        std::tuple<int, int> bracPos = bracketIndex(elements);
-        std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
-        elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
-        int start   = std::get<0>(bracPos) +1;
-        int stop    = std::get<1>(bracPos);
-
-        std::vector<std::string>::iterator it;
-        it = elements.begin();
-
-        std::cout << "test1" << std::endl;
-        std::cout << "elements[start -2][0]: " << elements[start -2][0] << std::endl;
-        // If num( instead of num*(
-        if(!charIsOper(elements[start -2][0]))
-        {
-            std::cout << "test2" << std::endl;
-            numBeforeBracket = true;
-            // insert * at start
-            //it = elements.insert(it + start -1, "*");
-            //std::cout << "test3" << std::endl;
-            //start++;
-            //stop++;
-        }
-        std::cout << "test4" << std::endl;
-        std::cout << "elements.size(): " << elements.size() << std::endl;
-        std::cout << "stop: " << stop << std::endl;
-        std::cout << "elements[stop][0]: " << elements[stop][0] << std::endl;
-        // If )num instread of )*num
-        if(!charIsOper(elements[stop][0]))
-        {
-            std::cout << "test5" << std::endl;
-            numAfterBracket = true;
-            //it = elements.insert(it + stop -1, "*");
-            //std::cout << "test6" << std::endl;
-            // insert * at stop +1
-        }
-
-        elements.erase(elements.begin() + start,     elements.begin() + stop);
+        counter++;
+        counter--;
         debugVectorStrPrinter(elements);
 
+        std::tuple<int, int> bracPos = bracketIndex(elements);
+        int start   = std::get<0>(bracPos) +1;
+        int stop    = std::get<1>(bracPos) -1;
+        std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, start, stop);
+        elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
+        it = elements.begin();
+        debugVectorStrPrinter(elements);
+
+        // Checks whether to add * before and/or after bracket when num()num instead of num*()*num.
+        numBeforeBracket   = false;
+        numAfterBracket    = false;
+        if(!charIsOper(elements[start -2][0]))
+        {
+            numBeforeBracket = true;
+        }
+        std::cout << "elem[]: " << elements[stop +1][0] << std::endl;
+        if(!charIsOper(elements[stop +1][0]))
+        {
+            std::cout << "elem[stop] != op" << std::endl;
+            numAfterBracket = true;
+        }
+        debugVectorStrPrinter(elements);
+        // Delets the bracketed part
+        std::cout << "::erase::" << std::endl;
+        elements.erase(elements.begin() + start, elements.begin() + stop +1);
+
+        // Adds the * before/after bracketed part.
         if(numBeforeBracket)
         {
-            it = elements.insert(it + start -1, "*");
+            it = elements.insert(elements.begin() + start -1, "*");
+            bracketCounter++;
         }
         if(numAfterBracket)
         {
-            it = elements.insert(it + start, "*");
+            std::cout << "test1" << std::endl;
+            std::cout << "start: " << start << std::endl;
+            std::cout << "stop: " << stop << std::endl;
+            debugVectorStrPrinter(elements);
+            std::cout << "counter: " << counter << std::endl;
+            std::cout << "elem[start1 + counter]: " << elements[start +1] << std::endl;
+            debugVectorStrPrinter(elements);
+            it = elements.insert(elements.begin() + start +1, "*");
+            debugVectorStrPrinter(elements);
+            std::cout << "elem[start2 + counter]: " << elements[start +1] << std::endl;
         }
 
         debugVectorStrPrinter(elements);
+        std::cout << "---------------" << std::endl;
     }
+
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
         int elemIndex = 0;
