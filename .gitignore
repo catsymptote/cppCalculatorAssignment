@@ -1,6 +1,7 @@
 ### Other
-.7z
-.png
+*.7z
+*.png
+*.res
 ignore/
 
 
