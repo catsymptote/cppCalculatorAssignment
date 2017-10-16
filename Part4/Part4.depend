@@ -20,3 +20,22 @@
 
 1507243494 source:d:\projects\c++\calculator\part4\resources\resource.rc
 
+1508133419 source:d:\projects\c++\calcalt\part4\main.cpp
+	<iostream>
+	<vector>
+	"calculator.h"
+
+1508133419 d:\projects\c++\calcalt\part4\include\calculator.h
+	<iostream>
+	<vector>
+	<string.h>
+	<math.h>
+	<algorithm>
+	<tuple>
+	<conio.h>
+
+1508133419 source:d:\projects\c++\calcalt\part4\resources\resource.rc
+
+1508133419 source:d:\projects\c++\calcalt\part4\src\calculator.cpp
+	"calculator.h"
+
