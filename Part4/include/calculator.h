@@ -9,7 +9,7 @@
 #include <math.h>       // fmod, pow++  - For maths
 #include <algorithm>    // Erase or something
 #include <tuple>        // tuple        - For lazy return of 'arrays'
-#include <conio.h>      // getch()      - For holding the window open when done
+//#include <conio.h>      // getch()      - For holding the window open when done (Windows only?)
 #include <sstream>      // setprecision - For long double to string conversion
 #include <iomanip>      // stringstream - For long double to string conversion
 
