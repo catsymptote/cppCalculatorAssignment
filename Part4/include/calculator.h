@@ -82,7 +82,7 @@ std::vector<std::string> stringToVector(std::string str);
 long double basicOperatorFunction(long double num1, char oper, long double num2);
 long double calculationHandler(std::vector<std::string> elements);
 
-// For brackets
+/// For brackets
 bool bracketFinder(std::vector<std::string> elements);
 bool bracketStartStringFinder(std::string str);
 bool bracketStopStringFinder(std::string str);

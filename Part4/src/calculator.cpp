@@ -14,7 +14,7 @@ void calcInputPrint()
     std::cout   << "= " << result
                 << "\n--------------------------------------------------\n";
 
-    /// Holding window open. (useful when not running in a loop)
+    /// Holding window open (useful when not running in a loop) (Windows builds only?).
     //std::cout << "Press any key to close ";
     //getch();
     //std::cout << "\n" << std::endl;
@@ -35,7 +35,6 @@ long double calcStr(std::string strInput)
 {
     /// Remove spaces.
     strInput = removeStringSpaces(strInput);
-
 
     /// If illegal
     if(!charLegality(strInput))
@@ -137,7 +136,7 @@ bool bracketLegality(std::string str)
         }
     }
 
-    return true;
+    return true;    // No rule breaks found.
 }
 
 
@@ -201,7 +200,6 @@ std::string removeStringSpaces(std::string str)
 std::vector<std::string> stringToVector(std::string str)
 {
     std::vector<std::string> elements;
-
     int flag = -1;
     /// Loop through chars in string.
     for(int strIndex = 0; strIndex < str.size() +1; strIndex++)
@@ -374,7 +372,6 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
         /// If there are brackets in the string
         if(bracketStartStringFinder(elements[vectIndex]))
         {
-            //std::cout << "#IF" << std::endl;
             if(bracCount == 0)
             {
                 start = vectIndex;
@@ -409,7 +406,6 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 long double calculationHandler(std::vector<std::string> elements)
 {
-
     bool numBeforeBracket, numAfterBracket;
     std::vector<std::string>::iterator it;
 
@@ -446,7 +442,7 @@ long double calculationHandler(std::vector<std::string> elements)
             it = elements.insert(elements.begin() + start +1, "*");
         }
     }
-    std::cout << elements[2] << std::endl;
+
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
         int elemIndex = 0;
@@ -456,7 +452,6 @@ long double calculationHandler(std::vector<std::string> elements)
             if(elements[elemIndex +1][0] == operators[opIndex])
             {
                 std::cout.precision(20);
-                //std::cout << std::setprecision(40) << std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2]))) << std::endl;
                 elements[elemIndex] = to_string_with_precision(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
                 elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
             }
