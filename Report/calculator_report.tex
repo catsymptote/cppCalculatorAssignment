@@ -230,7 +230,6 @@
 		
 		\subsection{Part 2}
 			When solving part 2, I did it in multiple steps, and there are therefore part 2 version 1-4, with incremental changes.
-			
 			\subsubsection{Version 1}
 				In part 2 I made a struct that included the two numbers, and the operator, as shown here:
 				\begin{lstlisting}
@@ -293,8 +292,7 @@
 					}
 				\end{lstlisting}
 				
-				I then made the elements of the string vector into the three-strings-struct, and the rest of the program is the same as version 1. \\
-				The program now actually takes in a single string, but it does require a space between the variables. The task was to allow both with or without spaces, so I had to to yet another version to add this feature.
+				I then made the elements of the string vector into the three-strings-struct, and the rest of the program is the same as version 1. The program now actually takes in a single string, but it does require a space between the variables. The task was to allow both with or without spaces, so I had to to yet another version to add this feature.
 			% End of Version 2
 			
 			
@@ -360,23 +358,23 @@
 				\begin{itemize}
 					\item ioHandler 		- Deals with (most of) the input and output functionality of the program. It includes:
 					\begin{itemize}
-						\item getUserinput()			- Gets the user input.
-						\item vectorPrinter()			- Prints out an int vector.
-						\item vectorStrPrinter() 		- Prints out an string vector.
+						\item getUserinput()			 - Gets the user input.
+						\item vectorPrinter()			 - Prints out an int vector.
+						\item vectorStrPrinter() 		 - Prints out an string vector.
 					\end{itemize}
 					
 					\item mathCalculation 	- Deals with the arithmetic calculations. It only has one function:
 					\begin{itemize}
-						\item operatorFunction()		- Basic arithmetic function.
+						\item operatorFunction()		 - Basic arithmetic function.
 					\end{itemize}
 					
-					\item stringHandler 	- Deals with all string things. I.e. string -> vector<string>:
+					\item stringHandler 	- Deals with all string things. I.e. string $->$ vector$<$string$>$:
 					\begin{itemize}
-						\item removeStringSpaces()		- Removes spaces in the input string.
-						\item operatorIndexer()			- Find the indexes of the operators in the string.
-						\item splitStringByIndexVector()- Splits the string into a string vector based on the operator indexes.
-						\item stringSplitter()			- Probably a vestigial function. This is why clean coding is important, kids.
-						\item stringConverter()			- Converts three strings into two numbers and a char.
+						\item removeStringSpaces()		 - Removes spaces in the input string.
+						\item operatorIndexer()			 - Find the indexes of the operators in the string.
+						\item splitStringByIndexVector() - Splits the string into a string vector based on the operator indexes.
+						\item stringSplitter()			 - Probably a vestigial function. This is why clean coding is important, kids.
+						\item stringConverter()			 - Converts three strings into two numbers and a char.
 					\end{itemize}
 					
 					\item globalDef			- Defines the structs used, and a char array of the allowable operators.
@@ -518,9 +516,9 @@
 			
 			I added a few new functions for the input and conversion:
 			\begin{itemize}
-				\item calcInputPrint()	- user input -> string -> string vector -> calculation -> print
-				\item calcInput()		- string -> string vector -> calculation -> print
-				\item calcVect()		- string vector -> calculation -> print
+				\item calcInputPrint()	- user input $->$ string $->$ string vector $->$ calculation $->$ print
+				\item calcInput()		- string $->$ string vector $->$ calculation $->$ print
+				\item calcVect()		- string vector $->$ calculation $->$ print
 			\end{itemize}
 			
 			This allows the user to input in the console, or input from another file, either as string or vector.
@@ -528,23 +526,23 @@
 			\begin{lstlisting}
 				bool charLegality(std::string str)
 				{
-					bool illegal = false;
+					bool legal = true;
 					for(int strIndex = 0; strIndex < str.length(); strIndex++)
 					{
-						illegal = true;
+						legal = false;
 						for(int legalCharIndex = 0; legalCharIndex < sizeof(legalChars); legalCharIndex++)
 						{
 							if(str[strIndex] == legalChars[legalCharIndex])
 							{
-								illegal = false;
+								legal = true;
 							}
 						}
-						if(illegal)
+						if(!legal)
 						{
-							return true;
+							return false;
 						}
 					}
-					return false;
+					return legal;
 				}
 			\end{lstlisting}
 			
@@ -765,9 +763,6 @@
 		
 		
 		\subsection{Summary}
-			
-
-	
 			The different parts/versions of the program cumulatively adds the following features/functionality:
 			\begin{itemize}
 				\item Part 1.0	- Allow the user to input number1, operator, number2, and find the answer.
@@ -777,7 +772,7 @@
 				\item Part 2.4	- Split the parts of the program into different files. Added features are few to none.
 				\item Part 3.1	- Allow 'infinite' length of the user input (as many numbers and operators as the user wants), and solve without caring for the order of operators.
 				\item Part 3.2	- Make the calculation with the correct order of the operators.
-				\item Part 4.0	- Allow the user to input maths with brackets.
+				\item Part 4.0	- Allow the user to input maths with brackets, and checks input string against input rules.
 			\end{itemize}
 	
 			The program (part 4) runs on a loop, which allows the user to calculate as much as they want, without having to reopen the program for every line.
@@ -797,37 +792,11 @@
 	
 	
 	\section{Discussion}
-		- On the process of creating the program \\
-		- Class? \\
-		- Future features \\
-		- 
-		
-		
-		
-		*Comments on the project (nonimpersional-ish?)*
+		As this program are early in the C++ course, I did not include a lot of features and design mechanigs that we had yet to cover in class. Things like exception handling, object orientated analysis, design, and programming, and not much use of pointers.
+		I therefore did not implement as many rule checks and exception handling (and because I did not find this as entertaining and educational as other projects I was working on). If I were to redo it at some point, I would design it more object oriented, more pointers and references. I would probably use a deque or preferably list instead of vector, due to their more efficient changing (and insertions).
+		I could have also added a prettier user interface, but this project did not ask for any such thing, and I therefore kept it simple. This also makes sense if using it in other projects.
+		The project became a bit unstructured towards the end, as the changes was cumulatively added from part 1 to part 4. The code may be deesigned better if planned according to the final plan, rather than part by part.
 	% End of section 4 - Discussion
-	
-	
-	
-	\section{tmpResult}
-	Thus far the program is able to move the camera around using mouse movement + hold mouse button.
-	This can also be achieved using keyboard buttons.
-	The user can zoom the camera in and out using the scroll wheel on the mouse.
-	They can also change some of the parameters of the pre-implemented objects.
-	There are also a few other functionalities, like a button for closing the program.
-	
-	
-	
-	% 4
-	\section{tmpDiscussion}
-	*what the result means for the future or whatever Idk*
-	As I was unable to work a lot on the project the second week due to illness,
-	I did not have time to implement all the wanted features,
-	like a function al save/load function, and more object manipulation.
-	I also changed my plans from the project plan/sketch massively for partly the same reason. \cite{CGDProjPlanRep2016} %!!!!!!
-	In my project plan report, I said that I imagined this would be a hard project to complete,
-	and that combined with less time due to previously discussed reasons,
-	I think that was a fair difficulty estimation.
 	
 	
 	\clearpage
