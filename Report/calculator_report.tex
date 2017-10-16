@@ -86,6 +86,23 @@
 	\author{Paul Knutson}
 	\maketitle
 	\thispagestyle{empty}
+	
+	% Horizontal line
+	\begin{center}
+		\line(1,0){350}
+	\end{center}
+	
+	% for prettificatory reasons
+	\hfill \break
+	% Abstract
+	This assignment is to program a calculator.
+	The assignment is created in multiple parts, each part partly build on each other. It should be programmed in C++, and it should handle a wide range of error conditions. E.g. that an illegal operator, letter, or no number is entered.
+	
+	% Horizontal line
+	\begin{center}
+		\line(1,0){350}
+	\end{center}
+	
 	\clearpage
 
 	\tableofcontents{}
@@ -163,28 +180,27 @@
 		\subsection{Some other point}
 			*Point here?*
 		% End of subsection 2
-	% End of section 1
-	
-	
-	
-	
+	% End of section 1 - Introduction
 	
 	
 	\section{Method}
-			I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful.
-			
-			All the coding has been done in
-			\href{http://www.codeblocks.org/}{Code::Blocks v16.01}.
-			The first parts of the project were compiled using the \href{https://sourceforge.net/projects/mingw/files/}{MinGW 32 bit (x86) compiler}, but I later changed to the \href{https://sourceforge.net/projects/mingw-w64/}{MinGW-w64 64 bit compiler}, due to unrelated projects that required a 64 bit compiler.
-			I also use the \href{http://www.stroustrup.com/C++11FAQ.html}{C++11 language standards}.
-		% End of subsection 1
+		I want to complete one part, and then build further on it at next part. That way I do not have to redo all of the things I would otherwise have to do. Each part progress incrementally towards part 4, so simply adding functionality makes it less effortful.
 		
-		
+		All the coding has been done in
+		\href{http://www.codeblocks.org/}{Code::Blocks v16.01}.
+		The first parts of the project were compiled using the \href{https://sourceforge.net/projects/mingw/files/}{MinGW 32 bit (x86) compiler}, but I later changed to the \href{https://sourceforge.net/projects/mingw-w64/}{MinGW-w64 64 bit compiler}, due to unrelated projects that required a 64 bit compiler.
+		The \href{http://www.stroustrup.com/C++11FAQ.html}{C++11 language standards} is being used as well.
+		Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
+		(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
+	% End of section 2 - Method
+	
+	
+	\section{Result}
 		\subsection{Part 1}
 			%\lstinputlisting[language=c++]{files/calculator.cpp}
 			Part 1 of the assignment required me to make a function/method to a simple program that could input two numbers, with an operator (one after each other), so the program could add, subtract, multiply, or divide the numbers by each other.
 			
-			My solution got the input one after the other (number 1 -> operator -> number 2), and saved them as a double, a char, and another double respectively, like shown here:
+			My solution got the input one after the other (number 1 $->$ operator $->$ number 2), and saved them as a double, a char, and another double respectively, like shown here:
 			\begin{lstlisting}
 				std::cout << "Number 1> ";
 				double num1;
@@ -203,7 +219,7 @@
 			\begin{lstlisting}
 				case '+':
 					return (num1 + num2);
-					
+				
 				case '*':
 					return (num1 * num2);
 			\end{lstlisting}
@@ -214,6 +230,7 @@
 		
 		\subsection{Part 2}
 			When solving part 2, I did it in multiple steps, and there are therefore part 2 version 1-4, with incremental changes.
+			
 			\subsubsection{Version 1}
 				In part 2 I made a struct that included the two numbers, and the operator, as shown here:
 				\begin{lstlisting}
@@ -234,24 +251,29 @@
 				I then made another function to convert the three-strings-struct to the struct with the number and operator char. This was partly taken from Stackoverflow:
 				\cite{cppConvStr2Chr}
 				\begin{lstlisting}
-					// Convert std::string -> char[]
-					char chNum1[1024];
-					char chNum2[1024];
-					strcpy(chNum1, inNum1.c_str());
-					strcpy(chNum2, inNum2.c_str());
-					
-					// Make struct
-					mathOp thingy;
-					thingy.num1 = atof(chNum1);
-					thingy.num2 = atof(chNum2);
-					thingy.oper = inOper[0];
+					mathOp stringHandler(std::string inNum1, std::string inNum2, std::string inOper)
+					{
+						// Convert std::string -> char[]
+						char chNum1[1024];
+						char chNum2[1024];
+						strcpy(chNum1, inNum1.c_str());
+						strcpy(chNum2, inNum2.c_str());
+						
+						// Make struct
+						mathOp thingy;
+						thingy.num1 = atof(chNum1);
+						thingy.num2 = atof(chNum2);
+						thingy.oper = inOper[0];
+						
+						return thingy;
+					}
 				\end{lstlisting}
 				
 				Finally, I used the same basic arithmetic function from part 1 to calculate the answer from the inputted numbers, and return to main for showing the user. \\
 				This worked fine, but it did not technically take in a single string for the operations, and then process it, and therefore did not quite complete the task as it was supposed to.
 			% End of Version 1
-			
-			
+		
+		
 			\subsubsection{Version 2}
 				In version 2, I made the program take in a single string, as such:
 				\begin{lstlisting}
@@ -265,8 +287,8 @@
 					{
 						std::istringstream iss(inString);
 						std::vector<std::string> results(
-							(std::istream_iterator<std::string>(iss)),
-							std::istream_iterator<std::string>());
+						(std::istream_iterator<std::string>(iss)),
+						std::istream_iterator<std::string>());
 						return results;
 					}
 				\end{lstlisting}
@@ -298,7 +320,7 @@
 					}
 				\end{lstlisting}
 				
-				The function named splitStringByIndexVector() is unsurprisingly there to split the string at the indexes of the operators:
+				The function named splitStringByIndexVector() is (unsurprisingly) there to split the string at the indexes of the operators:
 				\begin{lstlisting}
 					std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes)
 					{
@@ -313,19 +335,18 @@
 							nextOp = operIndexes[opIndex];
 							
 							// Number
-							elements.push_back(inString.substr( strPos, nextOp - prevOp ));  // 0, nextOp
+							elements.push_back(inString.substr(strPos, nextOp - prevOp)); // 0, nextOp
 							
 							// Operator
 							if (opIndex < operIndexes.size())
 							{
-								elements.push_back(inString.substr( nextOp, 1 ));  // 4, 1
+								elements.push_back(inString.substr(nextOp, 1)); // 4, 1
 							}
 							
 							strPos = nextOp +1;
 							prevOp = nextOp +1;
 							opIndex++;
 						}
-						
 						return elements;
 					}
 				\end{lstlisting}
@@ -343,12 +364,12 @@
 						\item vectorPrinter()			- Prints out an int vector.
 						\item vectorStrPrinter() 		- Prints out an string vector.
 					\end{itemize}
-				
+					
 					\item mathCalculation 	- Deals with the arithmetic calculations. It only has one function:
 					\begin{itemize}
 						\item operatorFunction()		- Basic arithmetic function.
 					\end{itemize}
-				
+					
 					\item stringHandler 	- Deals with all string things. I.e. string -> vector<string>:
 					\begin{itemize}
 						\item removeStringSpaces()		- Removes spaces in the input string.
@@ -357,7 +378,7 @@
 						\item stringSplitter()			- Probably a vestigial function. This is why clean coding is important, kids.
 						\item stringConverter()			- Converts three strings into two numbers and a char.
 					\end{itemize}
-				
+					
 					\item globalDef			- Defines the structs used, and a char array of the allowable operators.
 				\end{itemize}
 			% End of Version 4
@@ -501,7 +522,7 @@
 				\item calcInput()		- string -> string vector -> calculation -> print
 				\item calcVect()		- string vector -> calculation -> print
 			\end{itemize}
-		
+			
 			This allows the user to input in the console, or input from another file, either as string or vector.
 			I also added a legality check function, to see if the input string is acceptable, or if it includes illegal characters. It returns true if the string includes illegal characters.
 			\begin{lstlisting}
@@ -537,20 +558,20 @@
 					/// Loop through chars in string.
 					for(int strIndex = 0; strIndex < str.size() +1; strIndex++)
 					{
-					/// If char in string is an operator character.
+						/// If char in string is an operator character.
 						if(charIsOper(str[strIndex]))
 						{
-							elements.push_back(str.substr(flag +1, strIndex-flag -1));  /// Add number
+							elements.push_back(str.substr(flag+1, strIndex-flag -1)); 	/// Add number
 							elements.push_back(str.substr(strIndex, 1));                /// Add operator
 							
 							/// While next char is also an operator (when multiple operators in a row).
 							while(charIsOper(str[strIndex +1]))
 							{
-								elements.push_back(str.substr(strIndex +1, 1));    /// Add operator
+								elements.push_back(str.substr(strIndex +1, 1));    		/// Add operator
 								strIndex++;
-								}
-								flag = strIndex;
 							}
+							flag = strIndex;
+						}
 					}
 					/// Add last number to element.
 					elements.push_back(str.substr(flag +1, str.length()));
@@ -576,13 +597,13 @@
 					{
 						case '+':
 							return (num1 + num2);
-							
+						
 						case '-':
 							return (num1 - num2);
-							
+						
 						case '*':
 							return (num1 * num2);
-							
+						
 						case '/':
 							if(num2 != 0)
 							{
@@ -591,10 +612,10 @@
 							else
 							{
 								std::cout << "\nDividing by 0 is naughty ;P"
-									<< std::endl;
+								<< std::endl;
 								return 0;
 							}
-							
+						
 						case '%':
 							if(num2 != 0)
 							{
@@ -603,10 +624,10 @@
 							else
 							{
 								std::cout << "\nDividing by 0 is naughty ;P"
-									<< std::endl;
+								<< std::endl;
 								return 0;
 							}
-							
+						
 						case '^':
 							if(!(num1 == 0 && num2 == 0))
 							{
@@ -615,10 +636,10 @@
 							else
 							{
 								std::cout << "\n0^0 is undefined. Google it."
-									<< std::endl;
+								<< std::endl;
 								return 0;
 							}
-							
+						
 						default:
 							std::cout   << "Error. Operator " << oper
 							<< " not recognized"  << std::endl;
@@ -632,7 +653,7 @@
 			\begin{lstlisting}
 				double calculationHandler(std::vector<std::string> elements)
 				{
-					if(bracketVectFinder(elements))
+					while(bracketVectFinder(elements))
 					{
 						std::tuple<int, int> bracPos = bracketIndex(elements);
 						std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, std::get<0>(bracPos) +1, std::get<1>(bracPos) -1);
@@ -666,36 +687,56 @@
 			The result from
 			\href{http://www.wolframalpha.com/input/?i=18+\%2B+((3*+(4-3\%2F(2\%2B1)-1)*+7)\%257)\%2B1}{Wolfram Alpha}
 			is 19. The result from my program is 19.
-			
+		% End of Part 4
+		
+		
+		\subsection{Summary}
 			Part 4 also got an icon taken from
 			\href{http://www.iconarchive.com/show/sevenesque-icons-by-tristan-edwards/Calculator-icon.html}{IconArchive}.
-		% End of Part 4
-	% End of section 2
+
 	
+			The different parts/versions of the program cumulatively adds the following features/functionality:
+			\begin{itemize}
+				\item Part 1.0	- Allow the user to input number1, operator, number2, and find the answer.
+				\item Part 2.1	- Take the input from the user in a single line (with spaces between numbers and operators).
+				\item Part 2.2	- Take the input from the user as a single string (with spaces between numbers and operators).
+				\item Part 2.3	- Allow user input without spaces.
+				\item Part 2.4	- Split the parts of the program into different files. Added features are few to none.
+				\item Part 3.1	- Allow 'infinite' length of the user input (as many numbers and operators as the user wants), and solve without caring for the order of operators.
+				\item Part 3.2	- Make the calculation with the correct order of the operators.
+				\item Part 4.0	- Allow the user to input maths with brackets.
+			\end{itemize}
 	
-	\section{Result}
-		The program (part 4) runs on a loop, which allows the user to calculate as much as they want, without having to reopen the program for every line.
-		It supports addition (+), subtractions (-), multiplication (*), division (/), modulus/remainder (\%), power (\^~), as well as bracketed mathematics. \\
-		There are still some bugs with formatting of the input:
-		\begin{itemize}
-			\item Requires operator before and after bracket when doing multiplication [i.e. "2(4.." should be "2*(4.."].
-			\item Does not like starting or ending with a bracket ["(1+2)" is bad, "1+(2+3)+4" is fine].
-			\item Some issues with multiple bracket pairs after each other ["1+(2+(3+4))" is fine, "1+(2+3)+(4+5)" is problematic].
-		\end{itemize}
-		
-		Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
-		(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
-	% End of section 3
+			The program (part 4) runs on a loop, which allows the user to calculate as much as they want, without having to reopen the program for every line.
+			It supports addition (+), subtractions (-), multiplication (*), division (/), modulus/remainder (\%), power (\^~), as well as bracketed mathematics. \\
+			There are still some bugs with formatting of the input:
+			\begin{itemize}
+				\item Requires operator before and after bracket when doing multiplication [i.e. "2(4.." should be "2*(4.."].
+				\item Does not like starting or ending with a bracket ["(1+2)" is bad, "1+(2+3)+4" is fine].
+				%\item Some issues with multiple bracket pairs after each other ["1+(2+(3+4))+5" is fine, "1+(2+3)+(4+5)+6" is problematic].
+				% Fixed by making bracket check if(...) -> while(...)
+			\end{itemize}
+			
+			Calculations are done with double floating point precision, which means it has 15 to 17 significan decimal digits precision, and is 64 bit: \\
+			(1 bit for the sign : 11 bits for the exponent : 52 bits for the fraction). \cite{doubleArithmetic} \cite{wikiDouble}
+		% End of Summary
+	% End of section 3 - Results
 	
 	
 	\section{Discussion}
+		- On the process of creating the program \\
+		- Class? \\
+		- Future features \\
+		- 
+		
+		
+		
 		*Comments on the project (nonimpersional-ish?)*
-	% End of section 4
+	% End of section 4 - Discussion
 	
 	
 	
 	\section{tmpResult}
-	
 	Thus far the program is able to move the camera around using mouse movement + hold mouse button.
 	This can also be achieved using keyboard buttons.
 	The user can zoom the camera in and out using the scroll wheel on the mouse.
@@ -710,7 +751,7 @@
 	As I was unable to work a lot on the project the second week due to illness,
 	I did not have time to implement all the wanted features,
 	like a function al save/load function, and more object manipulation.
-	I also changed my plans from the project plan/sketch massively for partly the same reason. \cite{CGD_ProjPlanRep2016} %!!!!!!
+	I also changed my plans from the project plan/sketch massively for partly the same reason. \cite{CGDProjPlanRep2016} %!!!!!!
 	In my project plan report, I said that I imagined this would be a hard project to complete,
 	and that combined with less time due to previously discussed reasons,
 	I think that was a fair difficulty estimation.
