@@ -11,11 +11,8 @@ void calcInputPrint()
     double result = calcInput();
 
     /// Print result.
-    std::cout   //<< "\n--------------------------------------------------"
-                //<< "--------------------------------------------------\n"
-                << "= " << result
-                << "\n--------------------------------------------------"
-                << "--------------------------------------------------\n";
+    std::cout   << "= " << result
+                << "\n--------------------------------------------------\n";
 
     /// Holding window open. (useful when not running in a loop)
     //std::cout << "Press any key to close ";
@@ -41,7 +38,7 @@ double calcStr(std::string strInput)
 
 
     /// If illegal
-    if(charLegality(strInput))
+    if(!charLegality(strInput))
     {
         std::cout << "----Invalid Input: Illegal characters used----" << std::endl;
         return -1;
@@ -63,26 +60,30 @@ double calcVect(std::vector<std::string> vectInput)
     return calculationHandler(vectInput);
 }
 
+
+
+/// /// Legality Check Functions /// ///
+
 /// Return false if string includes illegal characters.
 bool charLegality(std::string str)
 {
-    bool illegal = true;
+    bool legal = true;
     for(int strIndex = 0; strIndex < str.length(); strIndex++)
     {
-        illegal = false;
+        legal = false;
         for(int legalCharIndex = 0; legalCharIndex < sizeof(legalChars); legalCharIndex++)
         {
             if(str[strIndex] == legalChars[legalCharIndex])
             {
-                illegal = true;
+                legal = true;
             }
         }
-        if(illegal)
+        if(!legal)
         {
             return false;
         }
     }
-    return false;
+    return legal;
 }
 
 /// Return false if string includes illegal use of brackets.
@@ -93,7 +94,7 @@ bool bracketLegality(std::string str)
     {
         return false;
     }
-    if(str[0] == ')' || str[0] == ']' || str[0] == '}')
+    if(str[str.length() -1] == ')' || str[str.length() -1] == ']' || str[str.length() -1] == '}')
     {
         return false;
     }
