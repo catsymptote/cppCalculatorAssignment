@@ -65,6 +65,7 @@ void debugVectorStrPrinter(std::vector<std::string> vect);
 
 /// Legality checker
 bool charLegality(std::string str);
+bool bracketLegality(std::string strInput);
 
 
 /// String handling

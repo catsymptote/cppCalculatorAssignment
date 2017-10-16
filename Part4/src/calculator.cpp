@@ -43,12 +43,14 @@ double calcStr(std::string strInput)
     /// If illegal
     if(charLegality(strInput))
     {
-        std::cout << "----Invalid Input----" << std::endl;
+        std::cout << "----Invalid Input: Illegal characters used----" << std::endl;
         return -1;
     }
-    // testyFunction(strInput)      // check rules, etc.
-    // stringFormatter(strInput)    // 2( -> 2*(, and so on
-
+    if(!bracketLegality(strInput))
+    {
+        std::cout << "----Invalid Input: Illegal use of brackets----" << std::endl;
+        return -1;
+    }
 
     /// String to vector conversion.
     std::vector<std::string> vectInput = stringToVector(strInput);
@@ -61,28 +63,72 @@ double calcVect(std::vector<std::string> vectInput)
     return calculationHandler(vectInput);
 }
 
-/// Return true if string includes illegal characters.
+/// Return false if string includes illegal characters.
 bool charLegality(std::string str)
 {
-    bool illegal = false;
+    bool illegal = true;
     for(int strIndex = 0; strIndex < str.length(); strIndex++)
     {
-        illegal = true;
+        illegal = false;
         for(int legalCharIndex = 0; legalCharIndex < sizeof(legalChars); legalCharIndex++)
         {
             if(str[strIndex] == legalChars[legalCharIndex])
             {
-                illegal = false;
+                illegal = true;
             }
         }
         if(illegal)
         {
-            return true;
+            return false;
         }
     }
     return false;
 }
 
+/// Return false if string includes illegal use of brackets.
+bool bracketLegality(std::string str)
+{
+    /// Test if there are the same amount of start and ending brackets
+    int startBracketCounter = 0;
+    int endBracketCounter = 0;
+    for(int strIndex = 0; strIndex < str.length(); strIndex++)
+    {
+        if(str[strIndex] == '(' || str[strIndex] == '[' || str[strIndex] == '{')
+        {
+            startBracketCounter++;
+        }
+        else if(str[strIndex] == ')' || str[strIndex] == ']' || str[strIndex] == '}')
+        {
+            endBracketCounter++;
+        }
+    }
+    if(startBracketCounter != endBracketCounter)
+    {
+        return false;
+    }
+
+    /// Test if two brackets after each other (( or ))
+    for(int strIndex = 1; strIndex < str.length() -1; strIndex++)
+    {
+        if(str[strIndex] == '(' || str[strIndex] == '[' || str[strIndex] == '{')
+        {
+            if(str[strIndex -1] == '(' || str[strIndex -1] == '[' || str[strIndex -1] == '{')
+            {
+                return false;
+            }
+        }
+        if(str[strIndex] == ')' || str[strIndex] == ']' || str[strIndex] == '}')
+        {
+            if(str[strIndex +1] == ')' || str[strIndex +1] == ']' || str[strIndex +1] == '}')
+            {
+                return false;
+            }
+        }
+
+    }
+
+    return true;
+}
 
 
 
@@ -137,7 +183,7 @@ void debugVectorStrPrinter(std::vector<std::string> vect)
 std::string removeStringSpaces(std::string str)
 {
     // Based on: https://stackoverflow.com/questions/16329358/remove-spaces-from-a-string-in-c
-    str.erase(std::remove(str.begin(),str.end(),' '),str.end());
+    str.erase(std::remove(str.begin(), str.end(),' '), str.end());
     return str;
 }
 
@@ -402,8 +448,6 @@ double calculationHandler(std::vector<std::string> elements)
         int stop    = std::get<1>(bracPos) -1;
         std::vector<std::string> bracVect = bracketedSubvectExtractor(elements, start, stop);
         elements[std::get<0>(bracPos)] = std::to_string(calculationHandler(bracVect));
-        it = elements.begin();
-        debugVectorStrPrinter(elements);
 
         // Checks whether to add * before and/or after bracket when num()num instead of num*()*num.
         numBeforeBracket   = false;
