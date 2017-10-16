@@ -8,7 +8,7 @@
 void calcInputPrint()
 {
     /// Get result.
-    double result = calcInput();
+    long double result = calcInput();
 
     /// Print result.
     std::cout   << "= " << result
@@ -21,7 +21,7 @@ void calcInputPrint()
 }
 
 /// Get user input and return result.
-double calcInput()
+long double calcInput()
 {
     /// User input
     std::cout << "> ";
@@ -31,7 +31,7 @@ double calcInput()
 }
 
 /// Get string and return result.
-double calcStr(std::string strInput)
+long double calcStr(std::string strInput)
 {
     /// Remove spaces.
     strInput = removeStringSpaces(strInput);
@@ -55,7 +55,7 @@ double calcStr(std::string strInput)
 }
 
 /// Get vector and return result.
-double calcVect(std::vector<std::string> vectInput)
+long double calcVect(std::vector<std::string> vectInput)
 {
     return calculationHandler(vectInput);
 }
@@ -240,12 +240,27 @@ bool charIsOper(char inChar)
     return false;
 }
 
-/// Convert string to double.
-double stringToDouble(std::string str)
+/// Convert string to long double.
+long double stringToDouble(std::string str)
 {
-    char chr[1024];
-    strcpy(chr, str.c_str());
-    return atof(chr);
+    //char chr[1024];
+    //strcpy(chr, str.c_str());
+    //return atof(chr);
+    return std::stold(str);
+}
+
+std::string doubleToString()
+{
+    return std::to_string(1);
+}
+
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 256)
+{
+    // Taken from: https://stackoverflow.com/questions/16605967/set-precision-of-stdto-string-when-converting-floating-point-values
+    std::ostringstream out;
+    out << std::setprecision(n) << a_value;
+    return out.str();
 }
 
 
@@ -253,7 +268,7 @@ double stringToDouble(std::string str)
 /// /// Maths Functions /// ///
 
 /// Run two numbered calculations with basic operations.
-double basicOperatorFunction(double num1, char oper, double num2)
+long double basicOperatorFunction(long double num1, char oper, long double num2)
 {
     switch (oper)
     {
@@ -392,8 +407,9 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
 }
 
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
-double calculationHandler(std::vector<std::string> elements)
+long double calculationHandler(std::vector<std::string> elements)
 {
+
     bool numBeforeBracket, numAfterBracket;
     std::vector<std::string>::iterator it;
 
@@ -430,7 +446,7 @@ double calculationHandler(std::vector<std::string> elements)
             it = elements.insert(elements.begin() + start +1, "*");
         }
     }
-
+    std::cout << elements[2] << std::endl;
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
     {
         int elemIndex = 0;
@@ -439,7 +455,9 @@ double calculationHandler(std::vector<std::string> elements)
             /// If acceptable operator
             if(elements[elemIndex +1][0] == operators[opIndex])
             {
-                elements[elemIndex] = std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
+                std::cout.precision(20);
+                //std::cout << std::setprecision(40) << std::to_string(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2]))) << std::endl;
+                elements[elemIndex] = to_string_with_precision(basicOperatorFunction(stringToDouble(elements[elemIndex]), elements[elemIndex +1][0], stringToDouble(elements[elemIndex +2])));
                 elements.erase(elements.begin() + elemIndex +1, elements.begin() + elemIndex +3);
             }
             else
@@ -448,5 +466,6 @@ double calculationHandler(std::vector<std::string> elements)
             }
         }
     }
+
     return stringToDouble(elements[0]);
 }

@@ -10,6 +10,8 @@
 #include <algorithm>    // Erase or something
 #include <tuple>        // tuple        - For lazy return of 'arrays'
 #include <conio.h>      // getch()      - For holding the window open when done
+#include <sstream>      // setprecision - For long double to string conversion
+#include <iomanip>      // stringstream - For long double to string conversion
 
 
 
@@ -51,10 +53,10 @@ const static char legalChars[] = {
 
 /// Interface
 void calcInputPrint();
-double calcInput();
-double calcStr(std::string strInput);
-double calcVect(std::vector<std::string> vectInput);
-double altCalcVect(std::vector<std::string> vectInput);
+long double calcInput();
+long double calcStr(std::string strInput);
+long double calcVect(std::vector<std::string> vectInput);
+long double altCalcVect(std::vector<std::string> vectInput);
 
 
 /// Input and output
@@ -72,19 +74,13 @@ bool bracketLegality(std::string strInput);
 std::string removeStringSpaces(std::string str);
 bool charIsOper(char inChar);
 std::vector<std::string> stringSplitter(std::string inString);
-double stringToDouble(std::string str);
-
-// Splitter v. 1
-std::vector<int> operatorIndexer(std::string inString);
-std::vector<std::string> splitStringByIndexVector(std::string inString, std::vector<int> operIndexes);
-
-// Splitter v. 2
+long double stringToDouble(std::string str);
 std::vector<std::string> stringToVector(std::string str);
 
 
 /// Maths
-double basicOperatorFunction(double num1, char oper, double num2);
-double calculationHandler(std::vector<std::string> elements);
+long double basicOperatorFunction(long double num1, char oper, long double num2);
+long double calculationHandler(std::vector<std::string> elements);
 
 // For brackets
 bool bracketFinder(std::vector<std::string> elements);

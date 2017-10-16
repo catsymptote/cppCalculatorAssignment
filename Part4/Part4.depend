@@ -4,10 +4,10 @@
 	<vector>
 	"calculator.h"
 
-1508134665 source:d:\projects\c++\calculator\part4\src\calculator.cpp
+1508139331 source:d:\projects\c++\calculator\part4\src\calculator.cpp
 	"calculator.h"
 
-1508133710 d:\projects\c++\calculator\part4\include\calculator.h
+1508139482 d:\projects\c++\calculator\part4\include\calculator.h
 	<iostream>
 	<vector>
 	<string.h>
@@ -15,6 +15,8 @@
 	<algorithm>
 	<tuple>
 	<conio.h>
+	<sstream>
+	<iomanip>
 
 1507243494 source:d:\projects\c++\calculator\part4\resource.rc
 
