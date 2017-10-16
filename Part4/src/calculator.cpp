@@ -394,15 +394,9 @@ double calculationHandler(std::vector<std::string> elements)
 {
     bool numBeforeBracket, numAfterBracket;
     std::vector<std::string>::iterator it;
-    int counter = 0;
-    int bracketCounter = 0;
 
     while(bracketVectFinder(elements))
     {
-        counter++;
-        counter--;
-        debugVectorStrPrinter(elements);
-
         std::tuple<int, int> bracPos = bracketIndex(elements);
         int start   = std::get<0>(bracPos) +1;
         int stop    = std::get<1>(bracPos) -1;
@@ -418,39 +412,23 @@ double calculationHandler(std::vector<std::string> elements)
         {
             numBeforeBracket = true;
         }
-        std::cout << "elem[]: " << elements[stop +1][0] << std::endl;
         if(!charIsOper(elements[stop +1][0]))
         {
-            std::cout << "elem[stop] != op" << std::endl;
             numAfterBracket = true;
         }
-        debugVectorStrPrinter(elements);
+
         // Delets the bracketed part
-        std::cout << "::erase::" << std::endl;
         elements.erase(elements.begin() + start, elements.begin() + stop +1);
 
         // Adds the * before/after bracketed part.
         if(numBeforeBracket)
         {
             it = elements.insert(elements.begin() + start -1, "*");
-            bracketCounter++;
         }
         if(numAfterBracket)
         {
-            std::cout << "test1" << std::endl;
-            std::cout << "start: " << start << std::endl;
-            std::cout << "stop: " << stop << std::endl;
-            debugVectorStrPrinter(elements);
-            std::cout << "counter: " << counter << std::endl;
-            std::cout << "elem[start1 + counter]: " << elements[start +1] << std::endl;
-            debugVectorStrPrinter(elements);
             it = elements.insert(elements.begin() + start +1, "*");
-            debugVectorStrPrinter(elements);
-            std::cout << "elem[start2 + counter]: " << elements[start +1] << std::endl;
         }
-
-        debugVectorStrPrinter(elements);
-        std::cout << "---------------" << std::endl;
     }
 
     for (int opIndex = 0; opIndex < sizeof(operators) +1; opIndex++)
