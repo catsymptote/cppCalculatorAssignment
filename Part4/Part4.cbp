@@ -20,6 +20,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-m64" />
 					<Add directory="include" />
+					<Add directory="../Part4" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
