@@ -1,6 +1,6 @@
-Intro assignment C++
---------------------
-Leveres innen 16 okt innen 23:59  Poeng 1
+# Intro assignment C++
+
+> Leveres innen 16 okt innen 23:59  Poeng 1
 
 This assignment is created in multiple parts,
 each part partly build on each other. Depending
@@ -21,13 +21,13 @@ By operator it is meant + - *and/
 
 
 
-Part 1:
+## Part 1:
 
 create a program I will read to numbers and an
 operator from the keyboard and print out the
 results.
 
-E.g. 
+### E.g. 
 
 The text behind > in each line is what is
 entered in runtime.
@@ -42,7 +42,7 @@ the answer of 20 * 5 is 100.
 
 
 
-Part 2:
+## Part 2:
 
 create a program that reads a string containing
 two numbers and a operator and print out the
@@ -64,13 +64,13 @@ the answer to 10 + 15 is 25.
 
 
 
-Part 3:
+## Part 3:
 
 create a program that reads a string containing
 multiple numbers and operators and prints out
 the result .
 
-Example:
+### Example:
 
 please enter the input string> 2 + 3 * 5
 
@@ -78,7 +78,7 @@ please enter the input string> 2 + 3 * 5
 
  
  
-Part 4:
+## Part 4:
 
 create a program that reads ace drink containing
 multiple numbers and operators and prints out
@@ -93,8 +93,12 @@ a natural extension to this program is also to
 create an opportunity to read that string from
 the command line as the program is started.
 
-Example:
+### Example:
 
 Please give the input string> 4 + 5 + (7 + 4) * 3 + 4 * 4 + 9 / 3 + 4 * 12 – 3 / 4
 
 the answer to 4 + 5 + (7 + 4) * 3 + 4 * 4 + 9 / 3 + 4 * 12 – 3 / 4 is 108.25.
+
+
+## Future updates/bugs:
+* Requres ending in a non-bracket symbol. I.e. the input cannot be "2(3+4)", but can be "2(3+4)1".
