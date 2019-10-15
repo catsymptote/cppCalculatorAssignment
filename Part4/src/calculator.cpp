@@ -23,6 +23,7 @@ void calcInputPrint()
     //std::cout << "\n" << std::endl;
 }
 
+
 /// Get user input and return result.
 long double calcInput()
 {
@@ -32,6 +33,7 @@ long double calcInput()
 
     return calcStr(strInput);
 }
+
 
 /// Get string and return result.
 long double calcStr(std::string strInput)
@@ -55,6 +57,7 @@ long double calcStr(std::string strInput)
     std::vector<std::string> vectInput = stringToVector(strInput);
     return calcVect(vectInput);
 }
+
 
 /// Get vector and return result.
 long double calcVect(std::vector<std::string> vectInput)
@@ -87,6 +90,7 @@ bool charLegality(std::string str)
     }
     return legal;
 }
+
 
 /// Return false if string includes illegal use of brackets.
 bool bracketLegality(std::string str)
@@ -154,6 +158,7 @@ std::string getStringInput()
     return inString;
 }
 
+
 /// Print out int vector.
 void vectorIntPrinter(std::vector<int> vect)
 {
@@ -165,6 +170,7 @@ void vectorIntPrinter(std::vector<int> vect)
     std::cout << std::endl;
 }
 
+
 /// Print out string vector.
 void vectorStrPrinter(std::vector<std::string> vect)
 {
@@ -175,6 +181,7 @@ void vectorStrPrinter(std::vector<std::string> vect)
     }
     std::cout << std::endl;
 }
+
 
 /// Debugging printer for string vector.
 void debugVectorStrPrinter(std::vector<std::string> vect)
@@ -198,6 +205,7 @@ std::string removeStringSpaces(std::string str)
     str.erase(std::remove(str.begin(), str.end(),' '), str.end());
     return str;
 }
+
 
 /// Alternative (new) to splitStringByIndexVector() and operatorIndexer().
 std::vector<std::string> stringToVector(std::string str)
@@ -241,6 +249,7 @@ bool charIsOper(char inChar)
     return false;
 }
 
+
 /// Convert string to long double.
 long double stringToDouble(std::string str)
 {
@@ -250,10 +259,12 @@ long double stringToDouble(std::string str)
     return std::stold(str);
 }
 
+
 std::string doubleToString()
 {
     return std::to_string(1);
 }
+
 
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 256)
@@ -317,6 +328,7 @@ long double basicOperatorFunction(long double num1, char oper, long double num2)
     return 0;
 }
 
+
 /// Finds if there is an beginning bracket in the string
 bool bracketStartStringFinder(std::string str)
 {
@@ -333,6 +345,7 @@ bool bracketStartStringFinder(std::string str)
     }
     return false;   /// No brackets found in string
 }
+
 
 /// Finds if there is an ending bracket in the string
 bool bracketStopStringFinder(std::string str)
@@ -351,6 +364,7 @@ bool bracketStopStringFinder(std::string str)
     return false;   /// No brackets found in string
 }
 
+
 /// Returns true if the vector of strings has a bracket in it
 bool bracketVectFinder(std::vector<std::string> elements)
 {
@@ -363,6 +377,7 @@ bool bracketVectFinder(std::vector<std::string> elements)
     }
     return false;   /// No brackets found in vector
 }
+
 
 /// Find the index of the first and its belonging brackets
 std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
@@ -395,6 +410,7 @@ std::tuple<int, int> bracketIndex(std::vector<std::string> elements)
     return vectPos;
 }
 
+
 /// Get subvector
 std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elements, int start, int stop)
 {
@@ -405,6 +421,7 @@ std::vector<std::string> bracketedSubvectExtractor(std::vector<std::string> elem
     }
     return subVect;
 }
+
 
 /// This functions calculates based on order of operations, and calculates bracketed parts recursively.
 long double calculationHandler(std::vector<std::string> elements)
