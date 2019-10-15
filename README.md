@@ -102,3 +102,5 @@ the answer to 4 + 5 + (7 + 4) * 3 + 4 * 4 + 9 / 3 + 4 * 12 – 3 / 4 is 108.25.
 
 ## Future updates/bugs:
 * Requres ending in a non-bracket symbol. I.e. the input cannot be "2(3+4)", but can be "2(3+4)1".
+* Support for special functions like sin() and similar.
+* Support for algebra.
