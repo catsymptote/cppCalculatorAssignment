@@ -59,3 +59,13 @@
 1571152610 source:d:\projects\cpp\oop\oop_calculator\part4\src\calculator.cpp
 	"calculator.h"
 
+1571152580 source:d:\projects\c++\oop\oop_calculator\part4\main.cpp
+	"calculator.h"
+	<iostream>
+	<vector>
+
+1508133710 source:d:\projects\c++\oop\oop_calculator\part4\resources\resource.rc
+
+1571156544 source:d:\projects\c++\oop\oop_calculator\part4\src\calculator.cpp
+	"calculator.h"
+
